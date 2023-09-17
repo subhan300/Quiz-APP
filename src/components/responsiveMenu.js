@@ -58,8 +58,8 @@ export default function ResponsiveMenu({ title, options, setOpen }) {
                   onClick={() => {
                     setOpen(prev=>!prev);
                   }}
+                  key={val.title}
                   style={{ color: "white" }}
-                  key={options.title}
                   href={`/cefr/${val.slug}`}
                   to={`/${val.slug}`}
                 >

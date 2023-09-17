@@ -43,7 +43,7 @@
 }
 .text__field {
     width: 100%;
-    margin: 1rem auto;
+    margin: 1rem auto !important;
 }
 @media (min-width: 768px) {
     .card {
