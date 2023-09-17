@@ -1,0 +1,223 @@
+.page_body {
+    background-color: #EAF2F9;
+    padding:.7rem
+}
+.result__grid {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 4rem 0;
+    gap: 1rem;
+    height: fit-content;
+}
+.result__detailsCont {
+    width: 100%;
+    height: 100%;
+}
+@media (min-width: 748px) {
+    .result__detailsCont {
+        width: 632px;
+    }
+    .que__result {
+        display: flex;
+        flex-direction: row;
+    }
+}
+.result__details, .result__tableCont {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1em;
+}
+.result__tableCont {
+    margin-top: 1rem;
+}
+.result__progressBar {
+    width: 304px;
+    padding: 2rem;
+    background-color: #F59A51;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1em;
+    position: relative;
+}
+.result__progressBar h1 {
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+.result__progressBar p {
+    text-transform: capitalize;
+    font-weight: 600;
+    font-size: 19px;
+}
+.result__progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative !important;
+}
+.progress {
+    font-size: 38px;
+    font-style: normal;
+}
+.progress__value {
+    font-size: 54px;
+    font-weight: 800;
+    position: absolute;
+}
+.que__progress {
+    font-size: 18px;
+    font-style: normal;
+}
+.que__value {
+    font-size: 24px;
+    font-weight: 500;
+    position: absolute;
+    margin-top: 10px;
+    color: #8EAC79;
+}
+
+.que__result {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+}
+.que__level {
+    font-size: 14px;
+}
+.result__details h1, .result__tableCont h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.result__detailsPara {
+    font-size: 15px;
+    margin-bottom: 1rem;
+}
+.result__detailsBx {
+    display: flex;
+    align-items: center !important;
+}
+.result__detailsBx h1 {
+    font-size: 20px;
+    margin-left: 10px;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+.que__resultRight p {
+    font-size: 15px;
+    margin-top: .5rem;
+}
+.share__resultBx {
+    background-color: white;
+    border-radius: 1em;
+    padding: 2rem;
+    margin-top: 1rem;
+}
+.share__resultBx p {
+    text-align: center;
+    font-weight: 600;
+}
+.social__iconsBx {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+.social__iconsBx span {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    border-radius: 100%;
+    background-color: #eaeaea;
+    margin: 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.social__iconsBx span svg {
+    width: 70%;
+    height: 70%;
+}
+.result__tableCont {
+    overflow: auto;
+    width: 100%;
+}
+.result__tableCont table {
+    border-collapse: collapse;
+}
+
+.result__tableCont table thead th,
+.result__tableCont table tbody td {
+    width: 100px;
+    text-align: center;
+    padding: 1rem;
+}
+.result__tableCont table thead th,
+.result__tableCont table tbody th {
+    font-size: 16px;
+    font-weight: 500;
+}
+.result__tableCont table tbody td {
+    font-size: 15px;
+}
+.result__tableCont table thead th:nth-child(2),
+.result__tableCont table tbody td:nth-child(2) {
+    background-color: #F59A51;
+    color: #fff;
+}
+
+.inner__grid {
+    justify-content: center;
+    margin-top: 1rem;
+}
+.card__content {
+    padding: 3rem 2rem;
+    min-height: fit-content;
+}
+.card__subHeading {
+    margin-top: 3rem;
+    font-size: 20px;
+    font-weight: 600;
+}
+.card__items {
+    margin: 2rem 0 0 1rem;
+}
+.card__itemsText {
+    font-size: 15px;
+}
+.quizDetails__bx {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.quizDetails__btn {
+    margin-top: 3rem;
+    background-color: white;
+    color: #000;
+    padding: 1rem 1.3rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-transform: capitalize;
+    box-shadow: 0 5px 5px lightgray;
+
+}
+.quizDetails__btn svg {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 10px;
+}

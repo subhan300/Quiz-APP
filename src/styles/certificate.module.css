@@ -1,0 +1,23 @@
+.certificate__button{
+    margin-top: 2rem;
+    color: rgb(232, 230, 227);
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-color: rgba(48, 52, 54, 0.4);
+    height: "48px";
+    outline: none;
+    border:none;
+    background:linear-gradient(20deg, rgba(9,42,245,1) 26%, rgba(9,42,245,0.711922268907563) 36%);
+}
+
+.container{
+    padding:80px
+}
+
+@media screen and (max-width: 600px) {
+  .container{
+    padding:3.5rem  1rem;
+  }
+}

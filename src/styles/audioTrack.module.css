@@ -1,0 +1,47 @@
+.audio_track, .question {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 2rem;
+}
+.audio_track {
+    align-items: flex-start;
+}
+.audio_trackp1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+.audio_trackp2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+.audio_trackp2 span {
+    background-color: #EAF2F9;
+    padding: 5px;
+    color: #4999F8;
+}
+.btn_bx {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    gap: 1rem;
+   
+}
+.btn_bx>div>button{
+    background-color: #4999F8;;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    border: none;
+}
+
+@media screen and (max-width: 600px) {
+    .audio_track{
+        width: 100%;
+    }
+}

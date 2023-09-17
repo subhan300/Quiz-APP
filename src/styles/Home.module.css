@@ -1,0 +1,102 @@
+.homeBx {
+    min-height: 100vh;
+    width: 100%;
+    /* background-color: #45D9D5; */
+    /* padding: calc(5 * .5rem) calc(2 * .5rem); */
+    /* padding: 1rem; */
+}
+.home__title {
+    /* color: black;
+    font-size: 32px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem; */
+}
+.inner__grid {
+    justify-content: center;
+    margin-top: .5rem;
+    padding:.5rem;
+  
+    padding-bottom: 2rem !important;
+}
+.card__content {
+    padding: 3rem 2rem;
+    min-height: fit-content;
+}
+.card__title {
+    display: flex;
+    font-size: 80px;
+    font-weight: 600;
+    color: #45D9D5;
+    line-height: 1;
+}
+.card__titleBx {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+.card__titleSup {
+    font-size: 20px;
+}
+.card__titleTest {
+    font-size: 36px;
+    line-height: 1;
+    text-transform: uppercase;
+}
+.card__subHeading {
+    margin-top: 3rem;
+    font-size: 20px;
+    font-weight: 600;
+}
+.card__items {
+    margin: 2rem 0 0 1rem;
+}
+.card__itemsText {
+    font-size: 15px;
+}
+.take__quizBtn {
+    margin-top: 2rem;
+    background-color: #45D9D5;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    outline: none;
+}
+.quizDetails__btn {
+    margin-top: 1rem;
+    background-color: transparent;
+    color: #45D9D5;
+    padding: 1rem 1rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    /* margin-left: 5px; */
+    text-transform: capitalize;
+}
+.quizDetails__btn svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-left: 10px;
+}
+.quiz_btns{
+    display: flex;
+    gap:1rem;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 600px) {
+    .quizDetails__btn{
+        padding: 1rem 6px ;
+        margin-top: 0;
+    }
+}

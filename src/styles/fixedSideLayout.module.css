@@ -1,0 +1,36 @@
+.layout{
+    display: flex;
+    justify-content: space-between;
+    /* padding-top: 4rem; */
+    /* margin-top: 7rem !important; */
+     margin-top: 1.5rem;
+
+
+}
+
+.left_side{
+    /* border:1px solid gray; */
+    width:55%;
+    overflow-y: scroll;
+    height: calc(100vh - 100px);
+
+}
+
+.right_side{
+    /* border:1px solid green; */
+    /* border:1px solid gray; */
+    width:45%;
+    background-color: #EAF2F9;
+    overflow-y: scroll; 
+    height: calc(100vh - 100px);
+}
+
+@media screen and (max-width: 600px) {
+    .layout{
+        flex-direction: column;
+        padding: 1rem;
+    }
+    .left_side,.right_side{
+        width: 100%;
+    }
+}

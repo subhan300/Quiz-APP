@@ -1,0 +1,32 @@
+.assessment__Btn {
+    margin-top: 2rem;
+    background: linear-gradient(rgb(69, 221, 151), rgb(59, 200, 135));
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: none;
+    height: "48px";
+    outline: none;
+}
+
+.heading{
+font-size: 2rem;
+ color: #c8c3cb;
+ text-align: left;
+ line-height: 1.235;
+ font-weight: bold;
+}
+.paragraph{
+    font-size: 1rem;
+    max-width: 468px;
+    align-self: auto;
+    text-align: left;
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+        padding:1.5rem 1rem;
+    }
+}

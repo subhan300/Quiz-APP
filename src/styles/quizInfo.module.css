@@ -1,0 +1,92 @@
+.page_body {
+    /* background-color: #79B3F8; */
+    /* border:1px solid red */
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    padding: 8px;
+    /* border: 1px solid red; */
+    /* margin-top: 5rem; */
+} 
+.card {
+    max-width: 600px;
+    margin: 3rem auto;  
+    padding: 2rem;
+}
+.card__content h1 {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+.icon_bx {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin: 3rem 0;
+}
+.icon_bx span {
+    font-size: 40px;
+    font-weight: 600;
+}
+.icon_elem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.icon_elem p:first-child {
+    font-size: 14px;
+}
+.icon_elem p:last-child {
+    font-size: 16px;
+    font-weight: 600;
+}
+.list__item {
+    list-style: none;
+    margin-left: 2rem;
+}
+.list__item li::before {
+    top: 8px;
+    left: -30px;
+    content: "";
+    display: block;
+    position: absolute;
+    min-width: 0.6rem;
+    transform: rotate(45deg);
+    min-height: 0.6rem;
+    background: #191919;
+    border-radius: 1px;
+}
+.list__item li {
+    font-size: 16px;
+    position: relative;
+    margin: 1rem 0;
+}
+.btn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+.take__quizBtn {
+    margin-top: 2rem;
+    background-color: #45D9D5;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    outline: none;
+}
+
+@media only screen and (max-width:500px) {
+    .icon_bx{
+        flex-direction: column;
+    }
+}

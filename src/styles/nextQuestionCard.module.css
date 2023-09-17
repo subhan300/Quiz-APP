@@ -1,0 +1,62 @@
+.page_body {
+    width: 100%;
+    height: calc(100vh);
+    overflow: hidden;
+    background-color: #79B3F8;
+}
+.cardBx {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 0 1rem;
+}
+.card {
+    width: 100%;
+    margin-top: -2rem;
+    padding: 2rem;
+}
+.card h1 {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.card p {
+    font-size: .9rem;
+    text-align: center;
+}
+.btn__bx {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.trans__Btn {
+    box-shadow: 0 5px 5px lightgray;
+    background-color: white;
+    color: #000;
+    margin-right: 10px;
+    margin-top: 2rem;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    font-size: .8rem;
+    font-weight: 600;
+    border: none;
+    outline: none;
+}
+.take__quizBtn {
+    margin-top: 2rem;
+    background-color: #45D9D5;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    font-size: .8rem;
+    font-weight: 600;
+    border: none;
+    outline: none;
+}
+@media (min-width: 768px) {
+    .card {
+        width: 500px;
+    }
+}
