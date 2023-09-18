@@ -1,3 +1,9 @@
+.container{
+    display:'flex';
+    justify-content:'center';
+    align-items:'center';
+    padding: 80px 60px;
+}
 .assessment__Btn {
     margin-top: 2rem;
     background: linear-gradient(rgb(69, 221, 151), rgb(59, 200, 135));
@@ -27,6 +33,6 @@ font-size: 2rem;
 
 @media screen and (max-width: 600px) {
     .container {
-        padding:1.5rem 1rem;
+        padding: 80px 30px;
     }
 }
