@@ -37,7 +37,7 @@ export default function App({ Component, pageProps }) {
     const temperMenu = menus.map((val) => {
       let slug = val.sys.contentType.sys.id;
       let title = slug.slice(5);
-      return { slug, title };
+      return { slug:`/cefr/${slug}`, title };
     });
     setMenuCollection(temperMenu);
   };

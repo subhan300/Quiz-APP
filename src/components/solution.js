@@ -16,7 +16,7 @@ export default function Solution() {
   return (
     <Container maxWidth='lg'>
     <Grid className={stylesheet.container}  container sx={{display:'flex',justifyContent:'center',alignItems:'center',paddingY:"90px",paddingX:"60px"}}>
-      <Grid item xs={12} md={6} spacing={10}>
+      <Grid container item xs={12} md={6} spacing={10}>
         <h2 className={stylesheet.heading}>A scalable English testing solution for any organization</h2>     
         <div style={{paddingTop:"30px"}}>
             <p  className={stylesheet.paragraph}>

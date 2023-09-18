@@ -78,7 +78,7 @@ function CustomMenuItem({ title, options, setOpen }) {
             return( <Link
               style={{ color: "black" }}
               key={i}
-              href={`/cefr/${setting.slug}`}
+              href={`${setting.slug}`}
               // to={`/${setting.slug}`}
               onClick={() => {
                 setOpen((prev) => !prev);

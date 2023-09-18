@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -51,17 +52,17 @@ export default function ResponsiveMenu({ title, options, setOpen }) {
       <AccordionDetails>
       <ul>
       {options.length
-          ? options.map((val) => {
+          ? options.map((val,i) => {
             return(
               (
                 <Link
                   onClick={() => {
                     setOpen(prev=>!prev);
                   }}
-                  key={val.title}
                   style={{ color: "white" }}
-                  href={`/cefr/${val.slug}`}
-                  to={`/${val.slug}`}
+                  key={val.title}
+                  href={`${val.slug}`}
+                  to={`${val.slug}`}
                 >
                   <li style={{marginTop:".7rem",color:"skyblue",listStyle:"none"}}>{val.title}</li>
                 </Link>

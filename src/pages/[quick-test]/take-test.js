@@ -136,7 +136,7 @@ function Quiz() {
   // console.log("all",allQuizes,"op--",quizState?.allQuizes?.quizQuestions[quizInfo.activeStep],quizInfo.activeStep)
   return (
     <div>
-      <PageWithTabWarning />
+      {/* <PageWithTabWarning /> */}
 
       {(Boolean(quizInfo.isQuizQuestionDone) &&
         Boolean(quizInfo.isQuizListeningDone)) ||

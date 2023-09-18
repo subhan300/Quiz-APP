@@ -1,7 +1,22 @@
+import queries from "@/firebase/firestore/queries";
 import { Box, Button, Card, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import GlobalFunctions from "../../lib/GlobalFunctions";
 
 function RetrieveCertificate() {
+    const [email,setEmail]=useState("")
+    const handleEmailSend=async()=>{
+      const userExist=await   queries.findDataExist(email)
+      console.log("user ",userExist)
+      if(userExist){
+        GlobalFunctions.sendEmail(userExist[0].email,"certificate recieved")
+        alert("We have emailed Your Certificate")
+      }else{
+        alert("Your Email not exist")
+      }
+      setEmail("")
+
+    }
   return (
     <Box
       sx={{
@@ -13,7 +28,7 @@ function RetrieveCertificate() {
         // height:"89.4vh"
       }}
     >
-      <Card style={{ padding: "1rem", width: "" }}>
+      <Card style={{ padding: "1rem"}}>
         <h1 style={{ textAlign: "center" }}>Find your certificate</h1>
         <p
           style={{
@@ -35,7 +50,7 @@ function RetrieveCertificate() {
             width: "70%",
           }}
         >
-          <TextField style={{ width: "100%" }} />
+          <TextField sx={{}} type="email" placeholder="Email" onChange={(e)=>{setEmail(e.target.value)}} style={{ width: "100%" }} />
         </div>
         <div
           style={{
@@ -59,6 +74,7 @@ function RetrieveCertificate() {
               border: "none",
               outline: "none",
             }}
+            onClick={()=>{handleEmailSend()}}
           >
             Submit
           </Button>

@@ -22,7 +22,7 @@ export default function NextQuestion() {
       firstName: "subhan",
       lastName: "s",
       yearOfBirth: "s",
-      email: "qa2+automationuser@thiswayglobal.com",
+      email: "subhan.akram1971@gmail.com",
       country: "s",
       city: "s",
       gender: "s",
@@ -192,7 +192,7 @@ export default function NextQuestion() {
                     id="lastName"
                     label="Last name(s)"
                     variant="outlined"
-                    value={formik.values.email}
+                    value={formik.values.lastName}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     error={
