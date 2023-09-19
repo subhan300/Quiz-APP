@@ -22,12 +22,12 @@ export default function Solution() {
             We have helped over 3,000 schools and organizations around the world define proficiency benchmarks using our English level test.
             </p>
         </div>
-        <div style={{paddingBottom:"50px"}}>
+        <div style={{paddingBottom:"50px"}} className={stylesheet.assessment__BtnBx}>
         <button className={stylesheet.assessment__Btn}>English assessment solutions</button>
         </div>
       </Grid>
-         <Grid item xs={12} md={6} sx={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-        <img src='https://a.storyblok.com/f/71234/391x318/af480f62c1/s4-desktop-image.svg'></img>
+         <Grid item xs={12} sm={6} md={6} sx={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+        <img className={stylesheet.grid__image} src='https://a.storyblok.com/f/71234/391x318/af480f62c1/s4-desktop-image.svg'></img>
       </Grid>
     </Grid>
     </Container>

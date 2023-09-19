@@ -1,3 +1,8 @@
+.certificate__buttonBx {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .certificate__button{
     margin-top: 2rem;
     color: rgb(232, 230, 227);
@@ -8,16 +13,52 @@
     border-color: rgba(48, 52, 54, 0.4);
     height: "48px";
     outline: none;
-    border:none;
-    background:linear-gradient(20deg, rgba(9,42,245,1) 26%, rgba(9,42,245,0.711922268907563) 36%);
-}
+    border: 1px solid rgba(255, 255, 255, 0.4);;
+    background-color: transparent;
+    /* background:linear-gradient(20deg, rgba(9,42,245,1) 26%, rgba(9,42,245,0.711922268907563) 36%); */
+  }
 
 .container{
-    padding:80px
+    padding: 80px;
+    color: #fff;
 }
 
 @media screen and (max-width: 600px) {
   .container{
-    padding:3.5rem  1rem;
+    padding: 3.5rem  .5rem;
+  }
+}
+
+.container h2 {
+  text-align: center;
+  font-size: 1.5rem;
+}
+.container p {
+  align-self: auto;
+  text-align: center;
+  font-size: .9rem;
+}
+.grid__image {
+  width: 100%;
+  opacity: 1;
+}
+@media (min-width: 748px) {
+  .container h2 {
+    text-align: left;
+    font-size: 2rem;
+  }
+  .container p {
+    text-align: left;
+    font-size: 1rem;
+  } 
+  .certificate__buttonBx {
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
+    margin-right: 9;
+    margin-left: 0;
+  }
+  .grid__image {
+    opacity: 0.5;
   }
 }
