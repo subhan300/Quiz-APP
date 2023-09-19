@@ -1,17 +1,15 @@
 .layout{
     display: flex;
     justify-content: space-between;
-    /* padding-top: 4rem; */
-    /* margin-top: 7rem !important; */
-     margin-top: 1.5rem;
-
-
+    margin-top: 2rem;
+    height: calc(100vh - 120px);
+    overflow: hidden;
 }
 
 .left_side{
     /* border:1px solid gray; */
-    width:55%;
-    overflow-y: scroll;
+    width: 50%;
+    overflow-y: auto;
     height: calc(100vh - 100px);
 
 }
@@ -19,9 +17,9 @@
 .right_side{
     /* border:1px solid green; */
     /* border:1px solid gray; */
-    width:45%;
+    width: 50%;
     background-color: #EAF2F9;
-    overflow-y: scroll; 
+    overflow-y: auto;
     height: calc(100vh - 100px);
 }
 
@@ -33,4 +31,15 @@
     .left_side,.right_side{
         width: 100%;
     }
+}
+.quizBtn {
+    margin-top: 2rem;
+    background-color: #45D9D5;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    font-size: .8rem;
+    font-weight: 600;
+    border: none;
+    outline: none;
 }

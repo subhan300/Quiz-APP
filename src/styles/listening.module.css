@@ -41,7 +41,7 @@
     justify-content: center;
     align-items: center;
 }
-.audio_track button {
+#playButton button {
     background-color: #64AAFE;
     width: 80px;
     height: 80px;
@@ -52,8 +52,8 @@
     align-items: center;
     justify-content: center;
 }
-.audio_track button svg {
-    width: 1.5rem;
+#playButton button .MuiSvgIcon-root {
+    font-size: 2rem !important;
     color: white;
 }
 .btn_bx div {

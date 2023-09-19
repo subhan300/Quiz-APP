@@ -14,14 +14,17 @@
   }
   .optionBx {
     width: 100%;
+    display: flex;
   }
   .option {
     background-color: white;
-    width: 100%;
-    padding: .5rem 1rem;
-    margin: 5px 0;
+    padding: 1.3rem;
+    margin: .5rem;
     border-radius: 5px;
+    display: grid;
+    justify-content: space-between !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); 
   }
   .option span { 
     font-size: 14px !important;
-}
+  }

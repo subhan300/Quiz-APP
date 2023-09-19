@@ -87,7 +87,7 @@ export default function Listening({ children, data }) {
                   {!isPlaying ? (
                     <PlayCircleOutlineOutlinedIcon />
                   ) : (
-                    <PauseCircleOutlineOutlinedIcon />
+                    <PauseCircleOutlineOutlinedIcon/>
                   )}
                 </button>
                 <div>

@@ -22,6 +22,7 @@ import Loader from "@/components/Loader";
 import NextQuestionCard from "@/components/NextQuestionCard";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import PageWithTabWarning from "@/components/PageWithTabWarning";
+import GridQuestion from "@/components/GridQuestion";
 function Quiz() {
   const router = useRouter();
   const params = router.query;
@@ -170,14 +171,14 @@ function Quiz() {
                     questionCategory={"reading"}
                   >
                     {quizState?.allQuizes?.quizQuestions?.length && (
-                      <Box sx={{ p: 2 }}>
+                      <Box>
                         {quizState?.allQuizes?.quizQuestions[
                           quizInfo.activeStep
                         ].normalText.map((val) => {
                           return (
                             <div
                               key={val.question}
-                              style={{ marginTop: "1rem" }}
+                              style={{ marginTop: "4rem" }}
                             >
                               <ReadingQuestion
                                 allInfo={val}
@@ -200,7 +201,7 @@ function Quiz() {
                       activeStep={quizInfo.activeStep}
                       nextButton={
                         <Button
-                          size="small"
+                        className={styles.quizBtn}
                           onClick={() => {
                             scoreHandler(
                               "reading",
@@ -232,7 +233,7 @@ function Quiz() {
                         <div
                           style={{
                             padding: "1rem",
-                            width: "90%",
+                            width: "95%",
                             margin: "auto auto",
                           }}
                         >
@@ -241,7 +242,7 @@ function Quiz() {
                           )}
                         </div>
                       </Box>
-                      <Box sx={{ p: 2 }} className={styles.right_side}>
+                      <Box className={styles.right_side}>
                         {quizState?.allQuizes?.quizQuestions[
                           quizState.quizInfo.activeStep
                         ][getKey()].map((val) => {
@@ -250,6 +251,7 @@ function Quiz() {
                               key={val.question}
                               style={{ marginTop: "1rem" }}
                             >
+                              <GridQuestion/>
                               <ReadingQuestion
                                 allInfo={val}
                                 question={val.question}
@@ -268,7 +270,7 @@ function Quiz() {
                           activeStep={quizInfo.activeStep}
                           nextButton={
                             <Button
-                              size="small"
+                              className={styles.quizBtn}
                               onClick={() => {
                                 scoreHandler(
                                   "reading",
@@ -357,6 +359,7 @@ function Quiz() {
                         nextButton={
                           <div className={"btn__bx"}>
                             <button
+                              className={styles.quizBtn}
                               type="submit"
                               onClick={() => {
                                 scoreHandler(
@@ -370,7 +373,6 @@ function Quiz() {
                                   false
                                 );
                               }}
-                              className={"trans__Btn"}
                             >
                               Next
                             </button>

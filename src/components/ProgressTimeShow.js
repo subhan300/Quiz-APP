@@ -33,9 +33,11 @@ function ProgressTimeShow({ category,time }) {
             style={{ color: "skyblue", fontSize: "28px" }}
           />
         ) : (
-          <ImportContactsOutlinedIcon />
+          <ImportContactsOutlinedIcon
+            style={{ color: "skyblue", fontSize: "28px" }}
+          />
         )}
-        <span style={{ color: "skyblue" }}>{category}</span>
+        <span className={styles.category}>{category}</span>
       </div>
       <Box sx={{ width: "100%" }}>
         <LinearProgress variant="determinate" value={quizState.progress} />
