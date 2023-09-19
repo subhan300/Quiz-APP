@@ -122,6 +122,38 @@ const ContextProvider = ({ children }) => {
         mode,
       },
       primaryColor: "red",
+      components:{
+        MuiInput: {
+          styleOverrides: {
+            root: {
+              '&:before': {
+                borderBottom: '2px solid gray',
+              },
+              '&:hover:not(.Mui-disabled, .Mui-error):before': {
+                borderBottom: '2px solid gray',
+              },
+              '&.Mui-focused:after': {
+                borderBottom: '2px solid gray',
+              },
+            },
+          },
+        },
+        MuiFilledInput: {
+          styleOverrides: {
+            root: {
+              '&:before, &:after': {
+                borderBottom: '1px solid gray',
+              },
+              '&:hover:not(.Mui-disabled, .Mui-error):before': {
+                borderBottom: '1px solid gray',
+              },
+              '&.Mui-focused:after': {
+                borderBottom: '1px solid gray',
+              },
+            },
+          },
+        },
+      }
     });
   };
   return (

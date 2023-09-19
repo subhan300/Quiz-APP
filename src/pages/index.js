@@ -12,6 +12,7 @@ import {
   ListItemText,
   Button,
   useTheme,
+  TextField,
 } from "@mui/material";
 import stylesheet from "../styles/Home.module.css";
 import { Actions, State } from "@/context/context";
@@ -21,6 +22,8 @@ import Footer from "@/components/footer";
 import QuizCard from "@/components/QuizCard";
 import queries from "../firebase/firestore/queries";
 import PageWithTabWarning from "@/components/PageWithTabWarning";
+import ReadingQuestion from "@/components/readingQuestion";
+import styled from "styled-components";
 export default function Home({ posts, allQuizes }) {
   const [quizes, setQuizes] = useState([]);
   const quizState = State();
@@ -29,7 +32,12 @@ export default function Home({ posts, allQuizes }) {
   useEffect(() => {
     setQuizes(posts);
   }, []);
-
+  const val = {
+    answer: "Java",
+    options: ["Java", "Python", "C++", "JavaScript"],
+    question: "Which of the following programming languages do you know?",
+    type: "dropdown",
+  };
   return (
     <>
       <Head>
@@ -38,7 +46,24 @@ export default function Home({ posts, allQuizes }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+    <div style={{padding:"1rem",backgroundColor:"white"}}>
+    {/* <CssTextField /> */}
+    {/* <RedditTextField variant="filled" /> */}
+    {/* <TextField variant="standard" 
+    
+  /> */}
+  <TextField variant="standard"  id="standard-basic"  placeholder="SX" />
+    </div>
+      {/* <div style={{backgroundColor:"white",padding:"3rem",width:'40%'}}>
+      <ReadingQuestion
+        allInfo={val}
+        question={val.question}
+        options={val.options}
+        questionCategory={"reading"}
+        userQuizHandler={()=>{}}
+        id={val.question}
+      />
+      </div> */}
       <div className={stylesheet.homeBx}>
         <div>
           <Certificate />
@@ -86,6 +111,51 @@ export default function Home({ posts, allQuizes }) {
     </>
   );
 }
+
+const CssTextField = styled(TextField)({
+  '& label.Mui-focused': {
+    color: 'orange',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: 'yellow',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'yellow',
+      border:"1px solid black"
+    },
+    '&:hover fieldset': {
+      borderColor: 'yellow',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: 'green',
+    },
+  },
+})
+const RedditTextField = styled((props) => (
+  <TextField InputProps={{ disableUnderline: true }} {...props} />
+))(({ theme }) => ({
+  '& .MuiFilledInput-root': {
+    overflow: 'hidden',
+    borderRadius: 4,
+    // backgroundColor:'red',
+    border: '1px solid',
+    // borderColor:'red',
+   
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+    '&.Mui-focused': {
+      backgroundColor: 'transparent',
+      boxShadow: `red 0 0 0 2px`,
+      borderColor:'green',
+    },
+    
+    '&.MuiFilledInput-multiline':{
+      border:"1px solid yellow"
+      }
+  },
+}));
 export const getStaticProps = async () => {
   // const posts = await client.getEntries();
   // const posts = await contentful.getSingleBlogPost('quiz-B');

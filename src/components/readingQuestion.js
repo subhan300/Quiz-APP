@@ -17,6 +17,9 @@ import { useMediaQuery } from "@mui/material";
 import useAnswerCheck from "@/hooks/useAnswerCheck";
 import { Actions, State } from "@/context/context";
 import GlobalFunctions from "../../lib/GlobalFunctions";
+import RadioOptions from "./options/RadioOptions";
+import CheckboxOptions from "./options/CheckboxOptions";
+import DropdownOptions from "./options/DropdownOptions";
 
 const scoreCollection = [];
 export default function ReadingQuestion({
@@ -28,7 +31,7 @@ export default function ReadingQuestion({
   id,
 }) {
   const [selectedOption, setSelectedOption] = useState("");
-
+  console.log("all info", allInfo);
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
     let givenAnswer = event.target.value;
@@ -52,30 +55,34 @@ export default function ReadingQuestion({
       </Head>
       <Card className={stylesheet.card}>
         <CardContent>
-          <p className={stylesheet.ques} onCopy={GlobalFunctions.handleCopyPaste} onPaste={GlobalFunctions.handleCopyPaste}>{question}</p>
-          <FormControl component="fieldset" className={stylesheet.optionBx}>
-            <RadioGroup value={selectedOption} onChange={handleOptionChange}>
-              {options.map((option, index) => (
-                <FormControlLabel
-                  key={index}
-                  value={option}
-                  control={
-                    <Radio
-                      className={
-                        selectedOption === option ? stylesheet.selected : ""
-                      }
-                    />
-                  }
-                  label={option}
-                  className={[
-                    stylesheet.option,
-                    selectedOption === option ? stylesheet.selected : "",
-                  ]}
-                  // className={selectedOption === option ? stylesheet.selected : ''}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
+          <p
+            className={stylesheet.ques}
+            onCopy={GlobalFunctions.handleCopyPaste}
+            onPaste={GlobalFunctions.handleCopyPaste}
+          >
+            {question}
+          </p>
+          {allInfo.type === "checkbox" && (
+            <CheckboxOptions
+              options={options}
+              handleOptionChange={handleOptionChange}
+              selectedOption={selectedOption}
+            />
+          )}
+          {allInfo.type !== "checkbox" && allInfo.type !=="dropdown" && (
+            <RadioOptions
+              options={options}
+              handleOptionChange={handleOptionChange}
+              selectedOption={selectedOption}
+            />
+          )}
+          {allInfo.type ==="dropdown" && (
+             <DropdownOptions
+             options={options}
+             handleOptionChange={handleOptionChange}
+             selectedOption={selectedOption}
+           />
+          )}
         </CardContent>
       </Card>
     </>
