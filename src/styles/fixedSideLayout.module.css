@@ -32,14 +32,16 @@
         width: 100%;
     }
 }
-.quizBtn {
-    margin-top: 2rem;
+.quizBtn, .quizBtn:hover {
+    margin: 2rem 0;
     background-color: #45D9D5;
     color: white;
-    padding: 1rem 1.5rem;
+    padding: 1rem;
     border-radius: 9999px;
     font-size: .8rem;
     font-weight: 600;
     border: none;
     outline: none;
+    display: inline-flex;
+    align-items: center;
 }
