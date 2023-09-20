@@ -18,7 +18,7 @@ export default function Certificate() {
     <div
       style={{
         background:
-          "linear-gradient(20deg, rgba(9,42,245,0.711922268907563) 36%, rgba(176,6,158,0.8603816526610644) 59%)",
+          "linear-gradient(-135deg, #fe1c80, #0310ea 100%)",
       }}
     >
       <Container maxWidth={"lg"}>
@@ -33,23 +33,17 @@ export default function Certificate() {
           className={stylesheet.container}
         >
           <Grid item xs={12} md={5}>
-            <h2   style={{ textAlign: "left", fontSize: "2rem" }}>
+            <h2>
               EF SET Certificate
             </h2>
             <div style={{ paddingTop: "30px", paddingBottom: "24px" }}>
-              <p
-                style={{
-                  textAlign: "left",
-                  fontSize: "1rem",
-                  alignSelf: "auto",
-                }}
-              >
+              <p>
                 Receive a free personalized online English certificate when you
                 take the 50-minute English test. You can easily add it to your
                 CV or LinkedIn profile.
               </p>
             </div>
-            <div style={{ paddingBottom: "50px" }}>
+            <div style={{ paddingBottom: "50px" }} className={stylesheet.certificate__buttonBx}>
               <button className={stylesheet.certificate__button}>
                 Certify your English level
               </button>
@@ -57,7 +51,7 @@ export default function Certificate() {
           </Grid>
           <Grid item xs={12} md={7}>
             <img
-              style={{ width: "100%", opacity: "0.5" }}
+              className={stylesheet.grid__image}
               src="https://a.storyblok.com/f/79503/468x467/2531d03856/certificate-image-desktop.svg"
             ></img>
           </Grid>
