@@ -21,6 +21,7 @@ import Footer from "@/components/footer";
 import QuizCard from "@/components/QuizCard";
 import queries from "../firebase/firestore/queries";
 import PageWithTabWarning from "@/components/PageWithTabWarning";
+import TopSliderDrawer from "@/components/TopSlideDrawer";
 export default function Home({ posts, allQuizes }) {
   const [quizes, setQuizes] = useState([]);
   const quizState = State();

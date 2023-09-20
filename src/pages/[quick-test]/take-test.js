@@ -23,6 +23,8 @@ import NextQuestionCard from "@/components/NextQuestionCard";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import PageWithTabWarning from "@/components/PageWithTabWarning";
 import GridQuestion from "@/components/GridQuestion";
+import TopSlideDrawer from "@/components/TopSlideDrawer";
+import TopSliderDrawer from "@/components/TopSlideDrawer";
 function Quiz() {
   const router = useRouter();
   const params = router.query;
@@ -91,8 +93,12 @@ function Quiz() {
 
   const scoreHandler = (questionCategory, handleNextPayload, isSkip) => {
     const collectionType = handleNextPayload[3];
-    let questionLeft =GlobalFunctions.getQuestionLeftModule(quizState,collectionType,userQuizCollection.length)
-      
+    let questionLeft = GlobalFunctions.getQuestionLeftModule(
+      quizState,
+      collectionType,
+      userQuizCollection.length
+    );
+
     if (questionLeft > 0 && !isSkip) {
       return handleModal(
         true,
@@ -109,9 +115,9 @@ function Quiz() {
     handleNext(...handleNextPayload);
   };
   const getKey = () => {
-    const quizExist = quizState?.allQuizes?.quizQuestions?.length
+    const quizExist = quizState?.allQuizes?.quizQuestions?.length;
     if (quizExist) {
-    return  GlobalFunctions.getObjectKey(
+      return GlobalFunctions.getObjectKey(
         quizState?.allQuizes?.quizQuestions[quizInfo.activeStep]
       );
     }
@@ -122,10 +128,12 @@ function Quiz() {
     getQuiz();
   }, []);
   useEffect(() => {
+   
     if (quizState.allQuizes.length) {
       setLoading(false);
     }
   }, [quizState.allQuizes]);
+
   useEffect(() => {
     if (
       Boolean(quizInfo.isQuizQuestionDone) &&
@@ -137,6 +145,7 @@ function Quiz() {
   // console.log("all",allQuizes,"op--",quizState?.allQuizes?.quizQuestions[quizInfo.activeStep],quizInfo.activeStep)
   return (
     <div>
+     
       {/* <PageWithTabWarning /> */}
 
       {(Boolean(quizInfo.isQuizQuestionDone) &&
@@ -165,13 +174,15 @@ function Quiz() {
                 open={open}
               />
               <div style={{ marginTop: "1rem" }}>
+             
                 {getKey() === "normalText" ? (
                   <TextMobileStepper
                     quiz={quizState?.allQuizes?.quizQuestions}
                     questionCategory={"reading"}
                   >
+                   
                     {quizState?.allQuizes?.quizQuestions?.length && (
-                      <Box>
+                      <Box sx={{ border: "1px solid red" }}>
                         {quizState?.allQuizes?.quizQuestions[
                           quizInfo.activeStep
                         ].normalText.map((val) => {
@@ -201,7 +212,7 @@ function Quiz() {
                       activeStep={quizInfo.activeStep}
                       nextButton={
                         <Button
-                        className={styles.quizBtn}
+                          className={styles.quizBtn}
                           onClick={() => {
                             scoreHandler(
                               "reading",
@@ -227,13 +238,16 @@ function Quiz() {
                     quiz={quizState?.allQuizes?.audioQuestions}
                     handleNext={handleNext}
                     questionCategory={"reading"}
+                    longPhrase={quizState.allQuizes.phrase1}
+
                   >
+                 
                     <div className={styles.layout}>
                       <Box className={styles.left_side}>
                         <div
                           style={{
                             padding: "1rem",
-                            width: "95%",
+                            width: "93%",
                             margin: "auto auto",
                           }}
                         >
@@ -249,9 +263,9 @@ function Quiz() {
                           return (
                             <div
                               key={val.question}
-                              style={{ marginTop: "1rem" }}
+                              className={styles.ReadingQuestion}
                             >
-                              <GridQuestion/>
+                              {/* <GridQuestion/> */}
                               <ReadingQuestion
                                 allInfo={val}
                                 question={val.question}
@@ -263,33 +277,32 @@ function Quiz() {
                             </div>
                           );
                         })}
-                        <MobileStepper
-                          variant="text"
-                          steps={quizInfo.questionsLength}
-                          position="static"
-                          activeStep={quizInfo.activeStep}
-                          nextButton={
-                            <Button
-                              className={styles.quizBtn}
-                              onClick={() => {
-                                scoreHandler(
+
+                        <div  className={styles.quizBtn_div}>
+                          <Button
+                            className={styles.quizBtn}
+                            onClick={() => {
+                              scoreHandler(
+                                "reading",
+                                [
+                                  "isQuizQuestionDone",
+                                  "questionsLength",
                                   "reading",
-                                  [
-                                    "isQuizQuestionDone",
-                                    "questionsLength",
-                                    "reading",
-                                    "quizQuestions",
-                                  ],
-                                  false
-                                );
-                              }}
-                              // disabled={ac=tiveStep === maxSteps - 1}
-                            >
-                              Next
-                              <KeyboardArrowRight />
-                            </Button>
-                          }
-                        />
+                                  "quizQuestions",
+                                ],
+                                false
+                              );
+                            }}
+                            // disabled={ac=tiveStep === maxSteps - 1}
+                          >
+                            Next
+                          </Button>
+                        </div>
+                   
+                        <div style={{paddingBottom:"1rem"}}>
+                        <p className={styles.footer_text}>© EF Education First. All rights reserved.</p>
+                        </div>
+                     
                       </Box>
                     </div>
                   </FixedSideStepper>

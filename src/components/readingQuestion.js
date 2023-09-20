@@ -11,11 +11,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import Solution from "./solution";
-import Certificate from "./certificate";
-import { useMediaQuery } from "@mui/material";
-import useAnswerCheck from "@/hooks/useAnswerCheck";
-import { Actions, State } from "@/context/context";
 import GlobalFunctions from "../../lib/GlobalFunctions";
 
 const scoreCollection = [];
@@ -52,7 +47,7 @@ export default function ReadingQuestion({
       </Head>
       <Card className={stylesheet.card}>
         <CardContent>
-          <p className={stylesheet.ques} onCopy={GlobalFunctions.handleCopyPaste} onPaste={GlobalFunctions.handleCopyPaste}>{question}</p>
+          <p className={stylesheet.question} onCopy={GlobalFunctions.handleCopyPaste} onPaste={GlobalFunctions.handleCopyPaste}>{question}</p>
           <FormControl component="fieldset" className={stylesheet.optionBx}>
             <RadioGroup value={selectedOption} onChange={handleOptionChange}>
               {options.map((option, index) => (

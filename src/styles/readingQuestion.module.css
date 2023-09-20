@@ -8,9 +8,10 @@
     color: white !important;
     background-color: #62A7F8 !important;
   }
-  .ques {
+  .question {
     font-size: 18px;
     font-weight: 500;
+    margin-bottom: 4px;
   }
   .optionBx {
     width: 100%;

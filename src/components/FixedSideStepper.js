@@ -1,16 +1,13 @@
 import Head from "next/head";
 import stylesheet from "../styles/listening.module.css";
-import Header from "@/components/header";
-import ReadingQuestion from "@/components/readingQuestion";
-import { useEffect, useRef, useState } from "react";
-import PauseCircleOutlineOutlinedIcon from "@mui/icons-material/PauseCircleOutlineOutlined";
-import PlayCircleOutlineOutlinedIcon from "@mui/icons-material/PlayCircleOutlineOutlined";
-import { Actions, State } from "@/context/context";
-import { Button, MobileStepper, useTheme } from "@mui/material";
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-const options = ["Option 1", "Option 2", "Option 3", "Option 4"];
+import { useEffect } from "react";
+import TopSliderDrawer from "./TopSlideDrawer";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
-export default function FixedSideStepper({children}) {
+
+
+export default function FixedSideStepper({children,longPhrase}) {
+  
   return (
     <>
       <Head>
@@ -19,6 +16,7 @@ export default function FixedSideStepper({children}) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <TopSliderDrawer ><div style={{overflowY:"scroll"}}>{documentToReactComponents(longPhrase)}</div></TopSliderDrawer>
       <div className={`${stylesheet.page_body} `}>
         <div>{children}</div>
         <div>

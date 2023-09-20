@@ -1,5 +1,6 @@
 .page_body {
     width: 100%;
+    /* position: relative; */
     /* min-height: 100vh; */
 }
 .grid {
@@ -65,4 +66,11 @@
 }
 .question {
     background-color: #EAF2F9;
+}
+@media screen and (max-width: 600px) {
+    .page_body{
+        /* overflow-y: scroll; */
+        height: calc(100vh - 100px);
+    }
+    
 }
