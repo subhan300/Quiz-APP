@@ -41,7 +41,7 @@ function ProgressTimeShow({ category, time,fixedProgressBar }) {
   }, []);
 
   return (
-    <div className={styles.progress} style={{ top:fixedProgressBar && !scrollY?70:0,position:fixedProgressBar?"fixed":"relative" }}>
+    <div className={styles.progress} style={{ top:scrollY?0:70,position:'fixed' }}>
       <div className={styles.progress_sider}>
         {category === "listening" ? (
           <HeadphonesOutlinedIcon

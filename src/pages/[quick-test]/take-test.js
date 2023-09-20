@@ -192,7 +192,7 @@ function Quiz() {
                   >
                    
                     {quizState?.allQuizes?.quizQuestions?.length && (
-                      <Box sx={{ border: "1px solid red" }}>
+                      <Box >
                         {quizState?.allQuizes?.quizQuestions[
                           quizInfo.activeStep
                         ].normalText.map((val) => {
