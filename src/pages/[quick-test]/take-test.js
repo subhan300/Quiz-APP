@@ -358,7 +358,7 @@ function Quiz() {
                         quizState.quizInfo.activeStep
                       ].map((val) => {
                         return (
-                          <div key={val.question} style={{ marginTop: "1rem" }}>
+                          <div className={styles.ReadingQuestion} key={val.question} style={{ marginTop: "1rem" }}>
                             <ReadingQuestion
                               allInfo={val}
                               question={val.question}
@@ -370,7 +370,31 @@ function Quiz() {
                           </div>
                         );
                       })}
-                      <MobileStepper
+                        <div  className={styles.quizBtn_div}>
+                          <Button
+                            className={styles.quizBtn}
+                            onClick={() => {
+                              scoreHandler(
+                                "listening",
+                                [
+                                  "isQuizListeningDone",
+                                  "listeningQuestionLength",
+                                  "listening",
+                                  "audioQuestions",
+                                ],
+                                false
+                              );
+                            }}
+                            // disabled={ac=tiveStep === maxSteps - 1}
+                          >
+                            Next
+                          </Button>
+                        </div>
+                   
+                        <div style={{paddingBottom:"1rem"}}>
+                        <p className={styles.footer_text}>© EF Education First. All rights reserved.</p>
+                        </div>
+                      {/* <MobileStepper
                         variant="text"
                         steps={quizInfo.listeningQuestionLength}
                         position="static"
@@ -411,7 +435,7 @@ function Quiz() {
                           //   <KeyboardArrowRight />
                           // </Button>
                         }
-                      />
+                      /> */}
                     </Box>
                   </div>
                 </FixedSideStepper>
