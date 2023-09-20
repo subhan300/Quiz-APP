@@ -16,8 +16,8 @@ function AudioTrackComponent({ questionUrl }) {
 
     if (audioElement && questionUrl()) {
       audioElement.currentTime = 0;
-      audioElement?.load(); 
-      setIsPlaying(false)
+      audioElement?.load();
+      setIsPlaying(false);
     }
   }, [questionUrl()]);
 
@@ -47,11 +47,11 @@ function AudioTrackComponent({ questionUrl }) {
         let duration = audioElement.duration;
         let currentTimeValue = Math.floor(audioElement.currentTime);
         let durationValue = Math.floor(duration);
-        if(typeof duration=='number'){
-          duration=0
-          durationValue = 0
+        if (typeof duration == "number") {
+          duration = 0;
+          durationValue = 0;
         }
-        const timeString = `${formatTime(currentTimeValue)}` 
+        const timeString = `${formatTime(currentTimeValue)}`;
         // / ${formatTime(
         //   durationValue
         // )}`;
@@ -68,7 +68,20 @@ function AudioTrackComponent({ questionUrl }) {
       .toString()
       .padStart(2, "0")}`;
   }
-
+  const [scrollY, setScrollY] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setScrollY(true);
+      } else {
+        setScrollY(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  });
   return (
     <div className={stylesheet.audio_track}>
       <div className={stylesheet.custom_audio_player}>
@@ -77,23 +90,29 @@ function AudioTrackComponent({ questionUrl }) {
             <p className={stylesheet.audio_trackp1}>
               You will hear 10 speakers.
             </p>
-            </>
+          </>
         )}
-            <p className={stylesheet.audio_trackp2}>
-              Choose the best option for what comes next in the conversation.
-              You can play the recording <span>TWO</span> times.
-            </p>
-        
-        <div className={stylesheet.btn_bx}>
-         <div>
-         <button id="playButton">
-            {!isPlaying ? (
-              <PlayCircleOutlineOutlinedIcon style={{fontSize:"30px",color:"white"}} />
-            ) : (
-              <PauseCircleOutlineOutlinedIcon style={{fontSize:"30px",color:"white"}} />
-            )}
-          </button>
-         </div>
+        <p className={stylesheet.audio_trackp2}>
+          Choose the best option for what comes next in the conversation. You
+          can play the recording <span>TWO</span> times.
+        </p>
+
+        <div className={`${scrollY?stylesheet.fixedAudio:''} ${stylesheet.btn_bx}`}>
+          <div>
+            <button id="playButton">
+              {!isPlaying ? (
+                <PlayCircleOutlineOutlinedIcon
+                  className={stylesheet.playIcon}
+                  style={{ fontSize: "30px", color: "white" }}
+                />
+              ) : (
+                <PauseCircleOutlineOutlinedIcon
+                  className={stylesheet.playIcon}
+                  style={{ fontSize: "30px", color: "white" }}
+                />
+              )}
+            </button>
+          </div>
           <div>
             <p id="playCount">Play's left: 2</p>
             <p id="currentTime">00:00 / 00:00</p>

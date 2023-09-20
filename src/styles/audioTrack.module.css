@@ -43,5 +43,39 @@
 @media screen and (max-width: 600px) {
     .audio_track{
         width: 100%;
+        position: relative;
+      
+    }
+    .fixedAudio{
+        /* border:1px solid red !important; */
+        top: 48px;
+        left: 0;
+        padding: 16px;
+        z-index: 1200;
+        position: fixed !important;
+        box-shadow: 0 2px 13px 0 rgba(25, 25, 25, 0.06);
+        justify-content: center;
+        width: 100%;
+        background-color: white;
+
+       
+        
+
+    }
+    .playIcon{
+        /* font-size: rem !important; */
+        margin-top: 4px;
+    
+    }
+    .btn_bx>div{
+        /* display: flex;
+        align-items: center; */
+    }
+    .btn_bx>div>button{
+        background-color: #4999F8;;
+        /* border-radius: 50%; */
+        width: 40px;
+        height: 40px;
+        border: none;
     }
 }
