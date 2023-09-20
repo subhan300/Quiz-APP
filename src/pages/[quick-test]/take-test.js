@@ -183,7 +183,7 @@ function Quiz() {
                 open={open}
 
               />
-              <div style={{ marginTop: "1rem" }}>
+              <div>
              
                 {getKey() === "normalText" ? (
                   <TextMobileStepper

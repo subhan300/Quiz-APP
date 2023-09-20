@@ -18,7 +18,7 @@ export default function FixedSideStepper({children,longPhrase,inView}) {
       </Head>
       {/* <TopSliderDrawer inView={inView} ><div style={{overflowY:"scroll"}}>{documentToReactComponents(longPhrase)}</div></TopSliderDrawer> */}
       <div className={`${stylesheet.page_body} `}>
-        <div>{children}</div>
+        {children}
       </div>
     </>
   );
