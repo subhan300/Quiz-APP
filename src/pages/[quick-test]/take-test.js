@@ -31,7 +31,6 @@ function Quiz() {
   const params = router.query;
   const [loading, setLoading] = React.useState(true);
   const [isIntersecting, setIsIntersecting] = useState(false);
-  console.log("is intesceri",isIntersecting)
   const quizState = State();
   const { quizInfo, allQuizes } = quizState;
   const actions = Actions();
@@ -129,7 +128,6 @@ function Quiz() {
     threshold: 0,
     // rootMargin:"20px"
   });
-  console.log("in view==",inView)
   useEffect(() => {
     setLoading(true);
     getQuiz();
