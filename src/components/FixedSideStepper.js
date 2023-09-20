@@ -6,7 +6,7 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 
 
 
-export default function FixedSideStepper({children,longPhrase}) {
+export default function FixedSideStepper({children,longPhrase,inView}) {
   
   return (
     <>
@@ -16,11 +16,9 @@ export default function FixedSideStepper({children,longPhrase}) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TopSliderDrawer ><div style={{overflowY:"scroll"}}>{documentToReactComponents(longPhrase)}</div></TopSliderDrawer>
+      {/* <TopSliderDrawer inView={inView} ><div style={{overflowY:"scroll"}}>{documentToReactComponents(longPhrase)}</div></TopSliderDrawer> */}
       <div className={`${stylesheet.page_body} `}>
         <div>{children}</div>
-        <div>
-      </div>
       </div>
     </>
   );

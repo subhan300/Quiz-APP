@@ -58,6 +58,6 @@ font-size: 1.3rem;
     .assessment__BtnBx {
         display: flex;
         justify-content: flex-start;
-        align-items: start;
+        align-items: flex-start;
     }
 }

@@ -6,9 +6,10 @@ import DonutLargeOutlinedIcon from "@mui/icons-material/DonutLargeOutlined";
 import CountdownTimer from "./CountDownTimer";
 import ImportContactsOutlinedIcon from "@mui/icons-material/ImportContactsOutlined";
 import { State } from "@/context/context";
-function ProgressTimeShow({ category, time }) {
+function ProgressTimeShow({ category, time,fixedProgressBar }) {
   const quizState = State();
   const [scrollY, setScrollY] = useState(0);
+  const [windowWidth,setWindowWidth]=useState(null)
   useEffect(() => {
     const handleScroll = () => {
       
@@ -17,16 +18,30 @@ function ProgressTimeShow({ category, time }) {
       }else{
         setScrollY(false);
       }
-      console.log("scoll", scrollY,window.scrollY>70);
     };
     window.addEventListener("scroll", handleScroll);
     return ()=>{
       window.removeEventListener("scroll", handleScroll);
     }
   }, []);
+  useEffect(() => {
+  
+    const handleScroll = () => {
+      
+      if(window.scrollY > 600){
+        setWindowWidth(true)
+      }else{
+        setWindowWidth(false)
+      }
+    };
+    window.addEventListener("resize", handleScroll);
+    return ()=>{
+      window.removeEventListener("resize", handleScroll);
+    }
+  }, []);
 
   return (
-    <div className={styles.progress} style={{ top: scrollY? 0 : '0',position:scrollY?"fixed":"relative" }}>
+    <div className={styles.progress} >
       <div className={styles.progress_sider}>
         {category === "listening" ? (
           <HeadphonesOutlinedIcon

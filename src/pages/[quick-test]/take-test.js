@@ -6,7 +6,7 @@
 
 import { Actions, State } from "@/context/context";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import contentfulApiFunctions from "../../../lib/contentful";
 import ReadingQuestion from "@/components/readingQuestion";
 import QuizWrapper from "@/components/QuizWrapper/QuizWrapper";
@@ -19,6 +19,7 @@ import FixedSideStepper from "@/components/FixedSideStepper";
 import { KeyboardArrowRight } from "@mui/icons-material";
 import GlobalFunctions from "../../../lib/GlobalFunctions";
 import Loader from "@/components/Loader";
+import { useInView } from "react-intersection-observer";
 import NextQuestionCard from "@/components/NextQuestionCard";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import PageWithTabWarning from "@/components/PageWithTabWarning";
@@ -29,6 +30,8 @@ function Quiz() {
   const router = useRouter();
   const params = router.query;
   const [loading, setLoading] = React.useState(true);
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  console.log("is intesceri",isIntersecting)
   const quizState = State();
   const { quizInfo, allQuizes } = quizState;
   const actions = Actions();
@@ -43,7 +46,7 @@ function Quiz() {
   ) => {
     setOpen(modalValue);
   };
-
+  const targetRef=useRef(null)
   const handleNext = (category, totalQuestions, questionCategory) => {
     if (
       quizInfo[category] ||
@@ -122,7 +125,11 @@ function Quiz() {
       );
     }
   };
-
+  const { ref, inView } = useInView({
+    threshold: 0,
+    // rootMargin:"20px"
+  });
+  console.log("in view==",inView)
   useEffect(() => {
     setLoading(true);
     getQuiz();
@@ -143,6 +150,7 @@ function Quiz() {
     }
   }, [quizInfo.isQuizQuestionDone, quizInfo.isQuizListeningDone]);
   // console.log("all",allQuizes,"op--",quizState?.allQuizes?.quizQuestions[quizInfo.activeStep],quizInfo.activeStep)
+
   return (
     <div>
      
@@ -158,6 +166,7 @@ function Quiz() {
             <QuizWrapper
               category="reading"
               isQuiz={quizState?.allQuizes.isQuiz}
+              fixedProgressBar={getKey() !== "normalText"}
             >
               <NextQuestionCard
                 handleModal={handleModal}
@@ -172,6 +181,7 @@ function Quiz() {
                 ]}
                 scoreHandler={scoreHandler}
                 open={open}
+
               />
               <div style={{ marginTop: "1rem" }}>
              
@@ -239,6 +249,7 @@ function Quiz() {
                     handleNext={handleNext}
                     questionCategory={"reading"}
                     longPhrase={quizState.allQuizes.phrase1}
+                    inView={inView}
 
                   >
                  
@@ -256,7 +267,7 @@ function Quiz() {
                           )}
                         </div>
                       </Box>
-                      <Box className={styles.right_side}>
+                      <Box className={styles.right_side} ref={ref}>
                         {quizState?.allQuizes?.quizQuestions[
                           quizState.quizInfo.activeStep
                         ][getKey()].map((val) => {

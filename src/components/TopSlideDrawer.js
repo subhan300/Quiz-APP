@@ -1,39 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import navStyles from "../styles/TopSliderDrawer.module.css";
-
-import Image from "next/image";
-import Link from "next/link";
 import { Button } from "@mui/material";
 
-function TopSliderDrawer({ children }) {
-  const targetRef = useRef(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
+function TopSliderDrawer({ children ,inView}) {
   const [showText, setShowText] = useState(false);
-
   const [open, setOpen] = useState(false);
-  useEffect(() => {
-    setScrollPosition(window.scrollY);
-  }, []);
+ 
   useEffect(() => {
     function handleScroll() {
-      const scrollPosition = window.scrollY;
-      const targetPosition = 1680;
-      // Adjust the offset value as needed
-      const offset = 100; // Change this value to your desired offset
-      if (scrollPosition >= targetPosition - offset) {
-        // console.log("=====result", scrollPosition, targetPosition);
+      if (inView) {
         setShowText(true);
       } else {
         setShowText(false);
       }
     }
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+    handleScroll()
+  
+  }, [inView]);
 
   return (
     <>
