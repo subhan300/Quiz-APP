@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import navStyles from "../styles/Navbar.module.css";
+import navStyles from "../styles/navbar.module.css";
 import Link from "next/link";
 import { Close } from "@mui/icons-material";
 import { Box, LinearProgress, Stack } from "@mui/material";
