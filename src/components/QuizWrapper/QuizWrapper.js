@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "../../styles/QuizWrapper.module.css";
 import QuizInfo from "../quizInfo";
 import { Actions, State } from "@/context/context";
@@ -7,12 +7,25 @@ function QuizWrapper({ children, headerLines, isQuiz,category }) {
   const quizState = State();
   const actions=Actions()
   const { quizInfo } = quizState;
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // Add smooth scrolling for a better user experience
+    });
+  };
 
   const [quizStart, setStartQuiz] = useState(false);
   const startQuiz = () => {
-    setStartQuiz(true);
+    
     actions.setProgress(0);
+    scrollToTop()
+    setStartQuiz(true);
+    // if(window.scrollY){
+    //   setStartQuiz(true);
+    // }
   };
+ 
+  console.log("ll",window.scrollY)
   return (
     <div
       className={style.quiz_wrapper}
