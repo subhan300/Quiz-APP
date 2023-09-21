@@ -18,7 +18,7 @@
 .click__menu, .click__menu:hover {
   cursor: pointer;
   /* z-index: 1000; */
-  background-color: skyblue;
+  background-color: #63AAFE;
   /* margin-top: .5rem; */
   color: white;
   padding: .7rem 1rem;
@@ -28,6 +28,9 @@
   border: none;
   outline: none;
   text-transform: capitalize;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
