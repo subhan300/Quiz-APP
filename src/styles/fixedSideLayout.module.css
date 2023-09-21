@@ -7,7 +7,7 @@
   /* overflow: hidden; */
 }
 .ReadingQuestion {
-  max-width: 392px;
+  width: 392px;
   margin-top: 1rem;
 }
 .left_side {
@@ -15,8 +15,9 @@
   width: 50%;
   overflow-y: auto;
   height: calc(100vh - 120px);
-  padding-top: 32px;
+  padding-top: 48px;
   margin-top: 3rem;
+  background-color: white;
 }
 
 .right_side {
@@ -33,7 +34,11 @@
   /* z-index: 900; */
   /* margin-top: 3rem; */
 }
-
+.simpleContainer{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
 @media screen and (max-width: 600px) {
   .layout {
     flex-direction: column;
@@ -49,20 +54,11 @@
   .quizBtn_div {
     width: 98% !important;
   }
+  .ReadingQuestion{
+    width:100%;
+  }
 }
-/* .quizBtn, .quizBtn:hover {
-    margin: 2rem 0;
-    background-color: #45D9D5;
-    color: white;
-    padding: 1rem;
-    border-radius: 9999px;
-    font-size: .8rem;
-    font-weight: 600;
-    border: none;
-    outline: none;
-    display: inline-flex;
-    align-items: center;
-} */
+
 .quizBtn_div {
   display: flex;
   justify-content: flex-end;

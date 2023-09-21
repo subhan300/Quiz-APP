@@ -22,7 +22,7 @@
 .dot_active{
     background-color:#4999f8
 }
-@media (min-width: 800px) {
+@media (min-width: 1150px) {
     .dot_bar{
         display: flex;
     }

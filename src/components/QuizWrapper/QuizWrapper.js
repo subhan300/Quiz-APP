@@ -30,7 +30,7 @@ function QuizWrapper({ children, headerLines, isQuiz,category ,fixedProgressBar}
     <div
       className={style.quiz_wrapper}
       style={{
-        backgroundColor: Boolean(quizStart) ? "" : "#79B3F8",
+        backgroundColor: Boolean(quizStart) ? "#eaf2f9" : "#79B3F8",
         width: "100%",
       }}
     >
