@@ -8,6 +8,8 @@ const options = ["Option 1", "Option 2", "Option 3", "Option 4"];
 
 function AudioTrackComponent({ questionUrl }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [duration,setDuration]=useState()
+  const [playCount, setPlayCount] = useState(0);
   const audioRef = useRef(null);
   const quizState = State();
   const { quizInfo } = quizState;
@@ -23,7 +25,6 @@ function AudioTrackComponent({ questionUrl }) {
 
   useEffect(() => {
     const playButton = document.getElementById("playButton");
-    const playCount = document.getElementById("playCount");
     const currentTime = document.getElementById("currentTime");
 
     playButton?.addEventListener("click", () => {
@@ -32,6 +33,12 @@ function AudioTrackComponent({ questionUrl }) {
       if (audioElement) {
         if (!isPlaying) {
           audioElement.play();
+          setPlayCount((prevCount) => prevCount + 1);
+
+          // Disable the play button after playing it two times
+          if (playCount >= 1) {
+            playButton.disabled = true;
+          }
         } else {
           audioElement.pause();
         }
@@ -39,26 +46,38 @@ function AudioTrackComponent({ questionUrl }) {
         setIsPlaying(!isPlaying);
       }
     });
-
-    audioRef?.current?.addEventListener("timeupdate", (event) => {
+    audioRef?.current?.addEventListener("loadedmetadata", () => {
       const audioElement = audioRef.current;
-
+      setIsPlaying(false);
+      const duration = Math.floor(audioElement.duration);
+      console.log("Duration:", duration);
+      setDuration(duration)
+    });
+    audioRef?.current?.addEventListener("timeupdate", (event) => {
+     
+      const audioElement = audioRef.current;
+      // console.log("audi elemnt",audioElement,audioElement.duration)
       if (audioElement) {
-        let duration = audioElement.duration;
         let currentTimeValue = Math.floor(audioElement.currentTime);
-        let durationValue = Math.floor(duration);
-        if (typeof duration == "number") {
-          duration = 0;
-          durationValue = 0;
-        }
-        const timeString = `${formatTime(currentTimeValue)}`;
-        // / ${formatTime(
-        //   durationValue
-        // )}`;
+        const timeString = `${formatTime(currentTimeValue)} `;
 
         currentTime.textContent = timeString;
       }
+      audioElement.addEventListener("ended", () => {
+        console.log("Audio playback completed.");
+        setIsPlaying(false)
+        audioElement.currentTime = 0;
+        audioElement?.load();
+      });
+    
+        
+      
     });
+    return ()=>{
+      audioRef?.current?.removeEventListener("addtimeupdated",()=>{
+        setIsPlaying(false)
+      })
+    }
   }, [isPlaying]);
 
   function formatTime(seconds) {
@@ -115,8 +134,14 @@ function AudioTrackComponent({ questionUrl }) {
           </div>
           <div>
             <p id="playCount">Play's left: 2</p>
-            <p id="currentTime">00:00 / 00:00</p>
+           <div style={{display:"flex"}}>
+           <p id="currentTime">00:00</p>
+            <span>
+              /
+              {formatTime(duration)}
+             </span>
           </div>
+           </div>
         </div>
       </div>
 

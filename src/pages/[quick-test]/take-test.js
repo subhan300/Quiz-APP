@@ -190,13 +190,13 @@ function Quiz() {
                     questionCategory={"reading"}
                     bg={"#eaf2f9"}
                   >
-                      <DotBar
-                          userQuizCollection={userQuizCollection}
-                          dotQuestionInfo={quizState?.allQuizes?.quizQuestions[
-                            quizInfo.activeStep
-                          ].normalText}
-                          
-                        />
+                    <DotBar
+                      userQuizCollection={userQuizCollection}
+                      dotQuestionInfo={
+                        quizState?.allQuizes?.quizQuestions[quizInfo.activeStep]
+                          .normalText
+                      }
+                    />
                     {quizState?.allQuizes?.quizQuestions?.length && (
                       <Box>
                         {quizState?.allQuizes?.quizQuestions[
@@ -221,7 +221,10 @@ function Quiz() {
                         })}
                       </Box>
                     )}
-                    <div style={{width:"80%"}} className={styles.quizBtn_div}>
+                    <div
+                      style={{ width: "80%" }}
+                      className={styles.quizBtn_div}
+                    >
                       <Button
                         className={styles.quizBtn}
                         onClick={() => {
