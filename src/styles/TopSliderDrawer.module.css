@@ -15,12 +15,19 @@
   /* background-color: white; */
 }
 
-.click__menu {
+.click__menu, .click__menu:hover {
   cursor: pointer;
   /* z-index: 1000; */
-  color: skyblue;
-  margin-top: 5rem;
-  font-weight: bold;
+  background-color: skyblue;
+  /* margin-top: .5rem; */
+  color: white;
+  padding: .7rem 1rem;
+  border-radius: 9999px;
+  font-size: .8rem;
+  font-weight: 600;
+  border: none;
+  outline: none;
+  text-transform: capitalize;
 }
 
 

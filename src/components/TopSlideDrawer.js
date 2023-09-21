@@ -24,29 +24,26 @@ function TopSliderDrawer({ children ,inView}) {
         className={`
         ${navStyles.navbar}`}
       >
-        <Button
+        <button
           className={`${navStyles.click__menu}`}
           style={{ display: !showText ? "none" : "block" }}
           onClick={() => {
             setOpen(!open);
           }}
-        >
-          Open Text
-        </Button>
+        >Open Text</button>
 
         <div
           className={`${navStyles.nav__content} `}
           style={{ display: "flex", top: open ? "0" : "-120%" }}
         >
-          {children}
-
-          <div
-            className={navStyles.close__menu}
+          <button
+            className={navStyles.click__menu}
             onClick={() => setOpen(false)}
             style={{ color: "white", display: !open ? "none" : "" }}
-          >
-            <h1>Close</h1>
-          </div>
+          >Hide Text
+          </button>
+          {children}
+
         </div>
       </div>
     </>
