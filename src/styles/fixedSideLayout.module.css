@@ -25,12 +25,13 @@
   width: 50%;
   background-color: #eaf2f9;
   overflow-y: auto;
-  height: calc(100vh - 120px);
-  padding-top: 48px;
+  height: calc(100vh - 70px);
+  padding-top: 62px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem;
+  /* z-index: 900; */
+  /* margin-top: 3rem; */
 }
 
 @media screen and (max-width: 600px) {

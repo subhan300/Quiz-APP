@@ -26,6 +26,7 @@ import PageWithTabWarning from "@/components/PageWithTabWarning";
 import GridQuestion from "@/components/GridQuestion";
 import TopSlideDrawer from "@/components/TopSlideDrawer";
 import TopSliderDrawer from "@/components/TopSlideDrawer";
+import DotBar from "@/components/DotBar";
 function Quiz() {
   const router = useRouter();
   const params = router.query;
@@ -266,6 +267,7 @@ function Quiz() {
                         </div>
                       </Box>
                       <Box className={styles.right_side} ref={ref}>
+                        <DotBar />
                         {quizState?.allQuizes?.quizQuestions[
                           quizState.quizInfo.activeStep
                         ][getKey()].map((val) => {

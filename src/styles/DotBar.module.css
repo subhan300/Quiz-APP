@@ -1,0 +1,27 @@
+.dot_bar{
+    top: 55%;
+    display: none;
+    padding: 8px;
+    position: fixed;
+    transform: translateY(-50%);
+    background: #F4F8FC;
+    border-radius: 9999px;
+    flex-direction: column;
+    right: 40px;
+    gap: 6px;
+}
+
+.dot{
+    width: 16px;
+    border: 2px solid #fff;
+    height: 16px;
+    cursor: pointer;
+    background: #eeeeee;
+    border-radius: 50%;
+}
+
+@media (min-width: 800px) {
+    .dot_bar{
+        display: flex;
+    }
+  }
