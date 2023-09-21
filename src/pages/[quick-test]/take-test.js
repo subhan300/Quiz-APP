@@ -125,7 +125,7 @@ function Quiz() {
     }
   };
   const { ref, inView } = useInView({
-    threshold: 0,
+    threshold: 0.29
     // rootMargin:"20px"
   });
   useEffect(() => {
