@@ -335,6 +335,7 @@ function Quiz() {
               <QuizWrapper
                 category="listening"
                 isQuiz={quizState?.allQuizes.isQuiz}
+                fixedProgressBar={getKey() !== "normalText"}
               >
                 <NextQuestionCard
                   handleModal={handleModal}
@@ -362,6 +363,9 @@ function Quiz() {
                       />
                     </Box>
                     <Box sx={{ p: 2 }} className={styles.right_side}>
+                    <DotBar  userQuizCollection={userQuizCollection}  dotQuestionInfo={quizState?.allQuizes?.audioQuestions[
+                        quizState.quizInfo.activeStep
+                      ]} />
                       {quizState?.allQuizes?.audioQuestions[
                         quizState.quizInfo.activeStep
                       ].map((val) => {
