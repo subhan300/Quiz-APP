@@ -6,7 +6,7 @@
 
 import { Actions, State } from "@/context/context";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import contentfulApiFunctions from "../../../lib/contentful";
 import ReadingQuestion from "@/components/readingQuestion";
 import QuizWrapper from "@/components/QuizWrapper/QuizWrapper";
@@ -27,6 +27,7 @@ import GridQuestion from "@/components/GridQuestion";
 import TopSlideDrawer from "@/components/TopSlideDrawer";
 import TopSliderDrawer from "@/components/TopSlideDrawer";
 import DotBar from "@/components/DotBar";
+import { useUID } from 'react-uid';
 function Quiz() {
   const router = useRouter();
   const params = router.query;
@@ -87,11 +88,16 @@ function Quiz() {
     return "http:" + getQuestionAudioUrl;
   };
   const userQuizHandler = (data) => {
-    const getIndex = userQuizCollection.findIndex((val) => val.id === data.id);
+    const quizCollection=[...quizState.quizUserAnswerSelection]
+    const getIndex = quizCollection.findIndex((val) => val.id === data.id);
     if (getIndex > -1) {
-      userQuizCollection.splice(getIndex, 1);
+      quizCollection.splice(getIndex, 1);
     }
-    userQuizCollection.push(data);
+   
+
+  
+    quizCollection.push(data);
+    actions.quizAnswerHandler(quizCollection)
   };
 
   const scoreHandler = (questionCategory, handleNextPayload, isSkip) => {
@@ -99,7 +105,7 @@ function Quiz() {
     let questionLeft = GlobalFunctions.getQuestionLeftModule(
       quizState,
       collectionType,
-      userQuizCollection.length
+      quizState.quizUserAnswerSelection.length
     );
 
     if (questionLeft > 0 && !isSkip) {
@@ -112,7 +118,7 @@ function Quiz() {
       );
     }
     actions.handleUserScore({
-      allQuizUserDetail: userQuizCollection,
+      allQuizUserDetail: quizState.quizUserAnswerSelection,
     });
     setOpen(false);
     handleNext(...handleNextPayload);
@@ -267,7 +273,9 @@ function Quiz() {
                         </div>
                       </Box>
                       <Box className={styles.right_side} ref={ref}>
-                        <DotBar />
+                        <DotBar  userQuizCollection={userQuizCollection}  dotQuestionInfo={quizState?.allQuizes?.quizQuestions[
+                          quizState.quizInfo.activeStep
+                        ][getKey()]} />
                         {quizState?.allQuizes?.quizQuestions[
                           quizState.quizInfo.activeStep
                         ][getKey()].map((val) => {

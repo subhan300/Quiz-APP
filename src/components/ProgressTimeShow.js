@@ -39,9 +39,9 @@ function ProgressTimeShow({ category, time,fixedProgressBar }) {
       window.removeEventListener("resize", handleScroll);
     }
   }, []);
-
+console.log("fixedProgressBar",fixedProgressBar)
   return (
-    <div className={styles.progress} style={{ top:scrollY?0:70,position:'fixed' }}>
+    <div className={styles.progress} style={{ top:scrollY?0:70,position:'fixed',width:!fixedProgressBar?"100%":"98.8%" }}>
       <div className={styles.progress_sider}>
         {category === "listening" ? (
           <HeadphonesOutlinedIcon

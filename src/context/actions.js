@@ -11,6 +11,7 @@ const {
   QUIZ_CLOSE,
   QUIZ_RESET,
   SET_MENU,
+  SET_USER_QUIZ_HANDLER,
 } = require("./constants");
 
 const getALLQuestionsLength = (data) => {
@@ -42,6 +43,9 @@ const setQuizes = (dispatch) => (data) => {
 };
 const QuizCloseOnTimeout = (dispatch) => (data) => {
   dispatch({ type: QUIZ_CLOSE, payload: data });
+};
+const quizAnswerHandler = (dispatch) => (data) => {
+  dispatch({ type: SET_USER_QUIZ_HANDLER, payload: data });
 };
 const handleNext = (dispatch) => (data) => {
   dispatch({ type: SET_CURRENT_STEP, payload: data });
@@ -80,5 +84,6 @@ export default {
   setUserFormSubmit,
   QuizCloseOnTimeout,
   quizReset,
-  setMenu
+  setMenu,
+  quizAnswerHandler
 };

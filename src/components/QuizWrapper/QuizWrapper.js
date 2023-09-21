@@ -3,7 +3,7 @@ import style from "../../styles/QuizWrapper.module.css";
 import QuizInfo from "../quizInfo";
 import { Actions, State } from "@/context/context";
 import ProgressTimeShow from "../ProgressTimeShow";
-function QuizWrapper({ children, headerLines, isQuiz,category }) {
+function QuizWrapper({ children, headerLines, isQuiz,category ,fixedProgressBar}) {
   const quizState = State();
   const actions=Actions()
   const { quizInfo } = quizState;
@@ -37,7 +37,7 @@ function QuizWrapper({ children, headerLines, isQuiz,category }) {
       {!Boolean(quizStart) && <QuizInfo category={category} isQuiz={isQuiz} startQuiz={startQuiz} />}
       {Boolean(quizStart) && (
         <>
-          <ProgressTimeShow time={isQuiz ? 25 : 7} category={category} />
+          <ProgressTimeShow time={isQuiz ? 25 : 7} fixedProgressBar={fixedProgressBar} category={category} />
           {quizInfo.activeStep === 0 && headerLines && (
             <>
               <h3 className={style.quiz_headline}>

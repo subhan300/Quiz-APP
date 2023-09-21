@@ -19,7 +19,9 @@
     background: #eeeeee;
     border-radius: 50%;
 }
-
+.dot_active{
+    background-color:#4999f8
+}
 @media (min-width: 800px) {
     .dot_bar{
         display: flex;

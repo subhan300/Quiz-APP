@@ -7,6 +7,7 @@ import {
   SET_QUIZES,
   SET_RESULT,
   SET_USER_FORM_SUBMIT,
+  SET_USER_QUIZ_HANDLER,
   SET_USER_SCORE,
   THEME_MODE,
 } from "./constants";
@@ -19,6 +20,7 @@ const initialState = {
   pageLoad: false,
   allQuizes: [],
   userFormSubmit: false,
+  quizUserAnswerSelection:[],
   quizInfo: {
     isQuizQuestionDone: false,
     questionsLength: 0,
@@ -88,6 +90,8 @@ export function reducer(state, action) {
       return { ...state, quizInfo: { ...state.quizInfo, ...action.payload } };
     case QUIZ_RESET:
       return initialState
+    case SET_USER_QUIZ_HANDLER:
+      return {...state,quizUserAnswerSelection:action.payload}
 
 
     default:
@@ -113,7 +117,8 @@ const ContextProvider = ({ children }) => {
     setProgress: actionsFunctions.setProgress(dispatch),
     setUserFormSubmit: actionsFunctions.setUserFormSubmit(dispatch),
     QuizCloseOnTimeout:actionsFunctions.QuizCloseOnTimeout(dispatch),
-    quizReset:actionsFunctions.quizReset(dispatch)
+    quizReset:actionsFunctions.quizReset(dispatch),
+    quizAnswerHandler:actionsFunctions.quizAnswerHandler(dispatch)
   });
 
   const theme = () => {
