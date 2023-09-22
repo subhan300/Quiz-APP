@@ -36,7 +36,6 @@ function ProgressTimeShow({ category, time, fixedProgressBar }) {
       window.removeEventListener("resize", handleScroll);
     };
   }, []);
-  console.log("fixedProgressBar", fixedProgressBar);
   return (
     <AppBar
       position="fixed"

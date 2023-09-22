@@ -25,7 +25,6 @@ function QuizWrapper({ children, headerLines, isQuiz,category ,fixedProgressBar}
     // }
   };
  
-  console.log("ll",window.scrollY)
   return (
     <div
       className={style.quiz_wrapper}

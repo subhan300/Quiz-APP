@@ -12,7 +12,6 @@ const db = getFirestore(firebase_app);
 const addData = async (collection, id, data) => {
   let result = null;
   let error = null;
- debugger
   try {
     result = await setDoc(doc(db, collection, id), data, {
       merge: true,

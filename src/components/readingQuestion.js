@@ -31,7 +31,6 @@ export default function ReadingQuestion({
   id,
 }) {
   const [selectedOption, setSelectedOption] = useState("");
-  console.log("all info", allInfo);
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
     let givenAnswer = event.target.value;

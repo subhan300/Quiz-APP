@@ -64,7 +64,6 @@ function AudioTrackComponent({ questionUrl }) {
         currentTime.textContent = timeString;
       }
       audioElement.addEventListener("ended", () => {
-        console.log("Audio playback completed.");
         setIsPlaying(false)
         audioElement.currentTime = 0;
         audioElement?.load();
