@@ -16,7 +16,7 @@
   overflow-y: auto;
   height: calc(100vh - 130px);
   padding-top: 16px;
-  margin-top: 8rem;
+  margin-top: 7.4rem;
 }
 
 .right_side {
@@ -31,7 +31,7 @@
   flex-direction: column;
   align-items: center;
   /* z-index: 900; */
-  margin-top:8rem;
+  margin-top: 7.4rem;
 }
 
 @media screen and (max-width: 600px) {

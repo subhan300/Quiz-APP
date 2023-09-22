@@ -5,7 +5,7 @@
   height: 400px;
   height: 48px;
   /* border-top-left-radius: 4px; */
-  margin-top: 4rem;
+  margin-top: 3.3rem;
 
  
   /* border: 1px solid blue; */
@@ -23,6 +23,7 @@
   box-shadow: 0 2px 6px 0 rgba(25, 25, 25, 0.25);
   align-items: space-between;
   justify-content: center;
+  padding-top: 1rem;
 }
 .category {
   color: skyblue;

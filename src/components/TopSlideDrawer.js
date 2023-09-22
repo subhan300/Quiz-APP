@@ -25,7 +25,7 @@ function TopSliderDrawer({ children ,inView}) {
         ${navStyles.navbar}`}
       >
         <button
-          className={`${navStyles.click__menu}`}
+          className={`${navStyles.click__menu} ${navStyles.responsive_btn}`}
           style={{ display: !showText ? "none" : "block" }}
           onClick={() => {
             setOpen(!open);
