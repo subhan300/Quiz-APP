@@ -61,21 +61,21 @@ export default function ReadingQuestion({
           >
             {question}
           </p>
-          {allInfo.type === "checkbox" && (
+          {allInfo?.type === "checkbox" && (
             <CheckboxOptions
               options={options}
               handleOptionChange={handleOptionChange}
               selectedOption={selectedOption}
             />
           )}
-          {allInfo.type !== "checkbox" && allInfo.type !=="dropdown" && (
+          {allInfo?.type !== "checkbox" && allInfo?.type !=="dropdown" && (
             <RadioOptions
               options={options}
               handleOptionChange={handleOptionChange}
               selectedOption={selectedOption}
             />
           )}
-          {allInfo.type ==="dropdown" && (
+          {allInfo?.type ==="dropdown" && (
              <DropdownOptions
              options={options}
              handleOptionChange={handleOptionChange}
