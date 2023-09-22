@@ -44,12 +44,21 @@
     flex-direction: column;
     /* padding: 1rem; */
   }
-  .left_side,
+  .left_side{
+    width: 100%;
+    /* overflow:; */
+    overflow: hidden;
+    height: 100%;
+    margin-top: 0;
+    padding-top: 80px;
+  }
   .right_side {
     width: 100%;
     /* overflow:; */
     overflow: hidden;
     height: 100%;
+    margin-top: 0;
+    padding-top: 100px;
   }
   .quizBtn_div {
     width: 98% !important;
@@ -84,4 +93,10 @@
   background-image: linear-gradient(to bottom, #69aeff, #4999f8);
   margin-bottom: 1rem;
   margin-top: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .responsive_btn {
+    margin-left: 7rem;
+  }
 }

@@ -371,7 +371,7 @@ function Quiz() {
                         questionUrl={getActiveStepQuestion}
                       />
                     </Box>
-                    <Box sx={{ p: 2 }} className={styles.right_side}>
+                    <Box sx={{ p: 2 , backgroundColor: '#eaf2f9'}} className={styles.right_side}>
                       <DotBar
                         userQuizCollection={userQuizCollection}
                         dotQuestionInfo={
