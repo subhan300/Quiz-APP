@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import Loader from "@/components/Loader";
 import grid1 from "@/assets/qrgrid1.png"
 import grid2 from "@/assets/qrgrid2.png"
+import QuizLayout from "@/components/quizLayout";
 const data = [
   {
     image: grid1,
@@ -334,4 +335,12 @@ export default function QuiaResult() {
       )}
     </>
   );
+}
+
+QuiaResult.getLayout = function getLayout(page) {
+  return (
+    <QuizLayout>
+     {page}
+    </QuizLayout>
+  )
 }

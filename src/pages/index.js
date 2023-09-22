@@ -22,6 +22,7 @@ import QuizCard from "@/components/QuizCard";
 import queries from "../firebase/firestore/queries";
 import PageWithTabWarning from "@/components/PageWithTabWarning";
 import TopSliderDrawer from "@/components/TopSlideDrawer";
+import Layout from "@/components/Layout";
 export default function Home({ posts, allQuizes }) {
   const [quizes, setQuizes] = useState([]);
   const quizState = State();
@@ -83,9 +84,15 @@ export default function Home({ posts, allQuizes }) {
           })}
         </Grid>
       </div>
-      <Footer />
     </>
   );
+}
+Home.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
 }
 export const getStaticProps = async () => {
   // const posts = await client.getEntries();

@@ -69,8 +69,10 @@ export default function TextMobileStepper({
       sx={{
         width: 300,
         flexGrow: 1,
+        marginTop:"2rem",
+        paddingTop:"4rem",
         "@media (min-width:600px)": {
-          minWidth: 500, // Width for desktop
+          minWidth: 360, // Width for desktop
         },
       }}
     >

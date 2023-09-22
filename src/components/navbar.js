@@ -17,7 +17,9 @@ function Navbar({ menuCollection }) {
   const [fixOnScroll, setFixOnScroll] = useState(false);
   const [scrollAnimation, setScrollAnimation] = useState(0);
   const currentWidth = useWindowWidth();
-
+  useEffect(() => {
+    setOpen(false);
+  }, [currentWidth]);
   return (
     <>
       <nav
@@ -98,12 +100,12 @@ function Navbar({ menuCollection }) {
                 </div>
               </div>
 
-              <ul className={navStyles.nav__content_links}>
+              <ul  className={navStyles.nav__content_links}>
                 {dynamicData.menuCollection(menuCollection).map((val) => {
                   return (
-                    <li key={val.title}>
+                    <li key={val.title} style={{width:"100%"}}>
                       {" "}
-                      <Box sx={{ flexGrow: 0 }}>
+                      <Box sx={{width:"100%"}}>
                         {currentWidth < 1024 ? (
                           <ResponsiveMenu
                             title={val.title}
@@ -129,7 +131,7 @@ function Navbar({ menuCollection }) {
                 style={{ display: "none", color: "white" }}
               >
                 {/* <Image src={close} alt='close icon ' /> */}
-                <Close />
+                <Close style={{color:"black"}} />
               </div>
             </div>
           </div>

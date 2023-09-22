@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { Actions, State } from "@/context/context";
 import { useRouter } from "next/router";
 import queries from "@/firebase/firestore/queries";
+import Layout from "@/components/Layout";
 
 export default function NextQuestion() {
   const result = { listening: 0, audio: 0 };
@@ -35,37 +36,35 @@ export default function NextQuestion() {
       action.setUserFormSubmit(true);
       const userExist = await queries.findDataExist(values.email);
       handleForm(values, userExist);
-     
     },
   });
- 
-  const sendEmail = async (email,message) => {
-  const emailData=  {
+
+  const sendEmail = async (email, message) => {
+    const emailData = {
       email,
-      subject: 'Your Certificate',
+      subject: "Your Certificate",
       message,
-    }
+    };
     try {
-      const response = await fetch('/api/sendEmail', {
-        method: 'POST',
+      const response = await fetch("/api/sendEmail", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(emailData),
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Email sent successfully:', data.message);
+        console.log("Email sent successfully:", data.message);
       } else {
-        console.error('Error sending email:', response.statusText);
+        console.error("Error sending email:", response.statusText);
       }
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error("Error sending email:", error);
     }
   };
   const getQuestionLeft = (data, category) => {
-
     let questionCategory = "";
     if (category === "reading") {
       questionCategory = "readingQuestionsLength";
@@ -107,30 +106,26 @@ export default function NextQuestion() {
   };
   const handleForm = async (data, userExist) => {
     if (userExist?.length) {
-      const updateResult=await queries.updateUserScore(
+      const updateResult = await queries.updateUserScore(
         userExist[0].id,
         userExist[0].result,
         userScore
       );
-      if(updateResult==="success"){
-        sendEmail(userExist[0].email,"Hi ,recieve your certificate")
+      if (updateResult === "success") {
+        sendEmail(userExist[0].email, "Hi ,recieve your certificate");
         router.push("/quizResult");
-        return updateResult
-       
-      }else{
-        alert("issue in backend , plz submit response again")
-       }
-  
-      
+        return updateResult;
+      } else {
+        alert("issue in backend , plz submit response again");
+      }
     }
-    const addData= await queries.addData("users", data.email, data);
-     if(addData==="success"){
-      sendEmail(data.email,"Hi ,recieve your certificate")
+    const addData = await queries.addData("users", data.email, data);
+    if (addData === "success") {
+      sendEmail(data.email, "Hi ,recieve your certificate");
       router.push("/quizResult");
-     }else{
-      alert("issue in backend , plz submit response again")
-     }
-    
+    } else {
+      alert("issue in backend , plz submit response again");
+    }
   };
   useEffect(() => {
     !Boolean(quizInfo.isQuizQuestionDone) ||
@@ -295,3 +290,6 @@ export default function NextQuestion() {
     </>
   );
 }
+NextQuestion.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};

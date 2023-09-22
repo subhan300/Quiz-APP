@@ -44,7 +44,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     getAllQuizes();
   }, []);
-
+  const getLayout = Component.getLayout ?? ((page) => page)
   return (
     <ContextProvider>
       {Component.requireAuth ? (
@@ -53,13 +53,16 @@ export default function App({ Component, pageProps }) {
         </AuthGuard>
       ) : (
         <>
-          <Navbar menuCollection={menuCollection} />
+         
           {pageLoad && (
             <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
               <LinearProgress color="primary" />
             </Stack>
           )}
-          <Component {...pageProps} />
+          
+ 
+         {getLayout(<Component {...pageProps} />)}
+          {/* <Component {...pageProps} /> */}
         </>
       )}
     </ContextProvider>

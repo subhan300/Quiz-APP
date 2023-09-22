@@ -3,6 +3,7 @@ import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import contentfulApiFunctions from "../../../../lib/contentful";
 import { useRouter } from "next/router";
+import Layout from "@/components/Layout";
 function DynamicTests() {
   const router = useRouter();
   const [quizes, setQuizes] = useState([]);
@@ -44,5 +45,11 @@ function DynamicTests() {
     </div>
   );
 }
-
+DynamicTests.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  )
+}
 export default DynamicTests;

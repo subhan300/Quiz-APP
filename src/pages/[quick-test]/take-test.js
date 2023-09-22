@@ -28,6 +28,8 @@ import TopSlideDrawer from "@/components/TopSlideDrawer";
 import TopSliderDrawer from "@/components/TopSlideDrawer";
 import DotBar from "@/components/DotBar";
 import { useUID } from 'react-uid';
+import Layout from "@/components/Layout";
+import QuizLayout from "@/components/quizLayout";
 function Quiz() {
   const router = useRouter();
   const params = router.query;
@@ -454,5 +456,11 @@ function Quiz() {
     </div>
   );
 }
-
+Quiz.getLayout = function getLayout(page) {
+  return (
+    <QuizLayout>
+      {page}
+    </QuizLayout>
+  )
+}
 export default Quiz;

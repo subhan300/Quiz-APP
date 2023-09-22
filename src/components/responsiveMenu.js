@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import * as React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -35,42 +35,52 @@ export default function ResponsiveMenu({ title, options, setOpen }) {
   const classes = useStyles();
   return (
     <Accordion
+      style={{ boxShadow: "none" }}
       sx={{
-        border: "1px solid #131d25 !important",
+        // border: "1px solid red ",
         width: "100%",
-        background: "#131d25",
+        color: "black",
+
+        background: "#F7F7F7",
       }}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
         id="panel1a-header"
-        sx={{ background: "#131d25" }}
       >
-        <Typography sx={{ color: "white" }}>{title}</Typography>
+        <Typography sx={{ color: "black" }}>{title}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-      <ul>
-      {options.length
-          ? options.map((val,i) => {
-            return(
-              (
-                <Link
-                  onClick={() => {
-                    setOpen(prev=>!prev);
-                  }}
-                  style={{ color: "white" }}
-                  key={val.title}
-                  href={`${val.slug}`}
-                  to={`${val.slug}`}
-                >
-                  <li style={{marginTop:".7rem",color:"skyblue",listStyle:"none"}}>{val.title}</li>
-                </Link>
-              )
-            )
-          })
-          : ""}
-      </ul>
+        <ul style={{ paddingLeft: "1rem", }}>
+          {options.length
+            ? options.map((val, i) => {
+                return (
+                  <Link
+                    onClick={() => {
+                      setOpen((prev) => !prev);
+                    }}
+                    style={{ color: "white" }}
+                    key={val.title}
+                    href={`${val.slug}`}
+                    to={`${val.slug}`}
+                  >
+                    <li
+                      style={{
+                        color: "black",
+                        listStyle: "none",
+                        fontSize: "16px",
+                        fontWeight: 500,
+                        marginBottom:"1rem"
+                      }}
+                    >
+                      {val.title}
+                    </li>
+                  </Link>
+                );
+              })
+            : ""}
+        </ul>
       </AccordionDetails>
     </Accordion>
   );
