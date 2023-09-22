@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import Loader from "@/components/Loader";
 import grid1 from "@/assets/qrgrid1.png"
 import grid2 from "@/assets/qrgrid2.png"
-import QuizLayout from "@/components/quizLayout";
+import QuizLayout from "@/components/QuizLayout";
 const data = [
   {
     image: grid1,
