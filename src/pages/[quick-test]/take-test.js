@@ -140,7 +140,6 @@ function Quiz() {
       setLoading(false);
     }
   }, [quizState.allQuizes]);
-console.log("wquiz",quizState)
   useEffect(() => {
     if (
       Boolean(quizInfo.isQuizQuestionDone) &&
