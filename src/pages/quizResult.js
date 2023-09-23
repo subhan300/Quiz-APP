@@ -29,12 +29,16 @@ export default function QuiaResult() {
 
   const router = useRouter();
   const totalMarks = userScore.listening + userScore.reading;
-  console.log(quizInfo)
+
   const { listeningQuestionLength, readingQuestionsLength } =
   quizInfo.ALLQuestionsTotalNumber
   console.log(listeningQuestionLength,readingQuestionsLength )
   const total = listeningQuestionLength + readingQuestionsLength;
- console.log( GlobalFunctions.getScorePercentage(totalMarks, total))
+  useEffect(() => {
+    if (!userFormSubmit) {
+      router.push("/");
+    }
+  }, [userFormSubmit]);
   return (
     <>
       <Head>
@@ -43,7 +47,7 @@ export default function QuiaResult() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {!!userFormSubmit ? (
+      {!userFormSubmit ? (
         <Loader />
       ) : (
         <div className={stylesheet.page_body}>
