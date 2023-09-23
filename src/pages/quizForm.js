@@ -1,23 +1,48 @@
 import Head from "next/head";
 import stylesheet from "../styles/quizForm.module.css";
 import Header from "@/components/header";
-import { Button, Card, CardContent, TextField } from "@mui/material";
+import {
+  Backdrop,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useFormik } from "formik";
 import formSchema from "../../lib/formSchema";
-import { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { Actions, State } from "@/context/context";
 import { useRouter } from "next/router";
 import queries from "@/firebase/firestore/queries";
 import Layout from "@/components/Layout";
+import CustomizedSnackbars from "@/components/toasters/Alert";
 
 export default function NextQuestion() {
   const result = { listening: 0, audio: 0 };
+  const [open, setOpen] = React.useState(false);
+  const [alertInfo, setAlertInfo] = useState({
+    message: "",
+    alertType: "error",
+  });
   const contextState = State();
   const { userScore } = contextState;
+  const [loader,setLoader]=useState(false)
   const { quizInfo } = contextState;
-
+  const isQuiz = contextState?.allQuizes.isQuiz;
   const action = Actions();
   const router = useRouter();
+  const handleAlert = (message, alertType) => {
+    setOpen(true);
+    setAlertInfo({ message, alertType });
+    setLoader(false)
+  };
   const formik = useFormik({
     initialValues: {
       firstName: "subhan",
@@ -29,9 +54,11 @@ export default function NextQuestion() {
       gender: "s",
       phone: "s",
       result: [{ userScore }],
+      learningMethod: "online",
     },
     validationSchema: formSchema.validationSchema,
     onSubmit: async (values) => {
+      setLoader(true)
       filterResult();
       action.setUserFormSubmit(true);
       const userExist = await queries.findDataExist(values.email);
@@ -39,31 +66,7 @@ export default function NextQuestion() {
     },
   });
 
-  const sendEmail = async (email, message) => {
-    const emailData = {
-      email,
-      subject: "Your Certificate",
-      message,
-    };
-    try {
-      const response = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(emailData),
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Email sent successfully:", data.message);
-      } else {
-        console.error("Error sending email:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error sending email:", error);
-    }
-  };
   const getQuestionLeft = (data, category) => {
     let questionCategory = "";
     if (category === "reading") {
@@ -109,23 +112,33 @@ export default function NextQuestion() {
       const updateResult = await queries.updateUserScore(
         userExist[0].id,
         userExist[0].result,
-        userScore
+        userScore,
+        isQuiz,
+        userExist[0]
       );
-      if (updateResult === "success") {
-        sendEmail(userExist[0].email, "Hi ,recieve your certificate");
+      if (updateResult === "success" ) {
+        
         router.push("/quizResult");
+        handleAlert("Form Submitted Successfully", "success");
+        setLoader(false)
         return updateResult;
-      } else {
-        alert("issue in backend , plz submit response again");
+      }  {
+        handleAlert("Submit it again , there might be some issue", "error");
       }
+      setLoader(false)
+      return ;
     }
-    const addData = await queries.addData("users", data.email, data);
+    const addData = await queries.addData("users", data.email, data,
+    isQuiz);
     if (addData === "success") {
-      sendEmail(data.email, "Hi ,recieve your certificate");
+      handleAlert("Form Submitted Successfully", "success");
       router.push("/quizResult");
+      setLoader(false)
     } else {
-      alert("issue in backend , plz submit response again");
+      handleAlert("Submit it again , there might be some issue", "error");
     }
+    setLoader(false)
+    return ;
   };
   useEffect(() => {
     !Boolean(quizInfo.isQuizQuestionDone) ||
@@ -141,8 +154,22 @@ export default function NextQuestion() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {!Boolean(quizInfo.isQuizQuestionDone) ||
-      !Boolean(quizInfo.isQuizListeningDone) ? (
+      <Backdrop
+  sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+  open={loader}
+  
+>
+  <CircularProgress color="inherit" />
+</Backdrop>
+      <CustomizedSnackbars
+        open={open}
+        setOpen={setOpen}
+        message={alertInfo.message}
+        alertType={alertInfo.alertType}
+      />
+     
+      { !Boolean(quizInfo.isQuizQuestionDone) ||
+      !Boolean(quizInfo.isQuizListeningDone) ?(
         <h1
           style={{
             display: "flex",
@@ -159,123 +186,270 @@ export default function NextQuestion() {
           <div className={stylesheet.cardBx}>
             <Card className={stylesheet.card}>
               <CardContent>
-                <h1>You're almost there…</h1>
-                <p>
-                  Before viewing your test score, please tell us more about
-                  yourself. This information will only be used for academic
-                  research purposes on language learning.
-                </p>
+                <div className={stylesheet.text__field}>
+                  <h1>You're almost there…</h1>
+                  {!isQuiz && (
+                    <Typography
+                      className={stylesheet.text}
+                      variant="subtitle2"
+                      gutterBottom={false}
+                    >
+                      Before viewing your test score, please tell us more about
+                      yourself. This information will only be used for academic
+                      research purposes on language learning.
+                    </Typography>
+                  )}
+                </div>
                 <form onSubmit={formik.handleSubmit}>
-                  <TextField
-                    className={stylesheet.text__field}
-                    id="firstName"
-                    label="First name(s)"
-                    variant="outlined"
-                    value={formik.values.firstName}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.firstName &&
-                      Boolean(formik.errors.firstName)
-                    }
-                    helperText={
-                      formik.touched.firstName && formik.errors.firstName
-                    }
-                  />
-                  <TextField
-                    className={stylesheet.text__field}
-                    id="lastName"
-                    label="Last name(s)"
-                    variant="outlined"
-                    value={formik.values.lastName}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.lastName && Boolean(formik.errors.lastName)
-                    }
-                    helperText={
-                      formik.touched.lastName && formik.errors.lastName
-                    }
-                  />
-                  <TextField
-                    className={stylesheet.text__field}
-                    id="email"
-                    label="Email"
-                    variant="outlined"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                  />
-                  <TextField
-                    className={stylesheet.text__field}
-                    id="yearOfBirth"
-                    label="Year of Birth"
-                    variant="outlined"
-                    value={formik.values.yearOfBirth}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.yearOfB && Boolean(formik.errors.yearOfB)
-                    }
-                    helperText={formik.touched.yearOfB && formik.errors.yearOfB}
-                  />
-                  <TextField
-                    className={stylesheet.text__field}
-                    id="country"
-                    label="Country"
-                    variant="outlined"
-                    value={formik.values.country}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.country && Boolean(formik.errors.country)
-                    }
-                    helperText={formik.touched.country && formik.errors.country}
-                  />
-                  <TextField
-                    className={stylesheet.text__field}
-                    id="city"
-                    label="City"
-                    variant="outlined"
-                    value={formik.values.city}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.city && Boolean(formik.errors.city)}
-                    helperText={formik.touched.city && formik.errors.city}
-                  />
-                  <TextField
-                    className={stylesheet.text__field}
-                    id="gender"
-                    label="Gender"
-                    variant="outlined"
-                    value={formik.values.gender}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.gender && Boolean(formik.errors.gender)
-                    }
-                    helperText={formik.touched.gender && formik.errors.gender}
-                  />
-                  <TextField
-                    className={stylesheet.text__field}
-                    id="phone"
-                    label="Mobile Phone"
-                    variant="outlined"
-                    placeholder="optional"
-                    value={formik.values.phone}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.phone && Boolean(formik.errors.phone)}
-                    helperText={formik.touched.phone && formik.errors.phone}
-                  />
-                  <TextField
-                    className={stylesheet.text__field}
-                    id="online"
-                    label="Prefered Learning Method"
-                    variant="outlined"
-                  />
+                  <div className={stylesheet.text__field}>
+                    {isQuiz && (
+                      <>
+                        <Typography
+                          className={stylesheet.title}
+                          mt={3}
+                          sx={{ marginBottom: "2px !important" }}
+                          align="left"
+                          variant="subtitle1"
+                          gutterBottom={false}
+                        >
+                          Your English Certificate
+                        </Typography>
+                        <Typography
+                          className={stylesheet.text}
+                          sx={{ width: "80%" }}
+                          variant="subtitle2"
+                          gutterBottom={false}
+                        >
+                          This name will appear on your EF SET certificate.
+                          Please enter it carefully.
+                        </Typography>
+                      </>
+                    )}
+                    <TextField
+                      // className={stylesheet.text__field}
+                      id="firstName"
+                      className={stylesheet.text__field_inner}
+                      label="First name(s)"
+                      variant="outlined"
+                      value={formik.values.firstName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.firstName &&
+                        Boolean(formik.errors.firstName)
+                      }
+                      helperText={
+                        formik.touched.firstName && formik.errors.firstName
+                      }
+                    />
+                    <TextField
+                      id="lastName"
+                      className={stylesheet.text__field_inner}
+                      label="Last name(s)"
+                      variant="outlined"
+                      value={formik.values.lastName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.lastName &&
+                        Boolean(formik.errors.lastName)
+                      }
+                      helperText={
+                        formik.touched.lastName && formik.errors.lastName
+                      }
+                    />
+                  </div>
+                  <div className={stylesheet.text__field}>
+                    {isQuiz && (
+                      <>
+                        <Typography
+                          className={stylesheet.title}
+                          mt={3}
+                          sx={{ marginBottom: "2px !important" }}
+                          align="left"
+                          variant="subtitle1"
+                          gutterBottom={false}
+                        >
+                          Your results
+                        </Typography>
+                        <Typography
+                          className={stylesheet.text}
+                          sx={{ width: "80%" }}
+                          variant="subtitle2"
+                          gutterBottom={false}
+                        >
+                          Where should we send a copy of your results?
+                        </Typography>
+                      </>
+                    )}
+                    <TextField
+                      className={stylesheet.text__field_inner}
+                      id="email"
+                      label="Email"
+                      variant="outlined"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.email && Boolean(formik.errors.email)
+                      }
+                      helperText={formik.touched.email && formik.errors.email}
+                    />
+                    <TextField
+                      className={stylesheet.text__field_inner}
+                      id="phone"
+                      label="Mobile Phone"
+                      variant="outlined"
+                      placeholder="optional"
+                      value={formik.values.phone}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.phone && Boolean(formik.errors.phone)
+                      }
+                      helperText={formik.touched.phone && formik.errors.phone}
+                    />
+                  </div>
+
+                  <div className={stylesheet.text__field}>
+                    {isQuiz && (
+                      <>
+                        <Typography
+                          className={stylesheet.title}
+                          mt={3}
+                          sx={{ marginBottom: "2px !important" }}
+                          align="left"
+                          variant="subtitle1"
+                          gutterBottom={false}
+                        >
+                          Improve your English
+                        </Typography>
+                        <Typography
+                          className={stylesheet.text}
+                          sx={{ width: "80%" }}
+                          variant="subtitle2"
+                          gutterBottom={false}
+                        >
+                          Would you like us to send you information about our
+                          English courses?
+                        </Typography>
+                      </>
+                    )}
+
+                    <FormControl  className={stylesheet.text__field_inner} sx={{ m: 0, minWidth: 120 }}>
+                      <InputLabel id="learningMethodLabel">
+                        Preferred Learning
+                      </InputLabel>
+                      <Select
+                        labelId="learningMethodLabel"
+                        id="learningMethod"
+                        name="learningMethod" // Add the name attribute here
+                        label="Preferred Learning"
+                        value={formik.values.learningMethod}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={
+                          formik.touched.learningMethod &&
+                          Boolean(formik.errors.learningMethod)
+                        }
+                        helperText={
+                          formik.touched.learningMethod &&
+                          formik.errors.learningMethod
+                        }
+                      >
+                        <MenuItem value="none">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value="study abroad">Study Abroad</MenuItem>
+                        <MenuItem value="online">Study Online</MenuItem>
+                        <MenuItem value="both">Both</MenuItem>
+                        <MenuItem value="dont send me info">
+                          Don't send me study information
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </div>
+                  <div className={stylesheet.text__field}>
+                    {isQuiz && (
+                      <>
+                        <Typography
+                          className={stylesheet.title}
+                          mt={3}
+                          sx={{ marginBottom: "2px !important" }}
+                          align="left"
+                          variant="subtitle1"
+                          gutterBottom={false}
+                        >
+                          Help our research
+                        </Typography>
+                        <Typography
+                          className={stylesheet.text}
+                          sx={{ width: "80%" }}
+                          variant="subtitle2"
+                          gutterBottom={false}
+                        >
+                          We use these details anonymously to research English
+                          proficiency
+                        </Typography>
+                      </>
+                    )}
+
+                    <TextField
+                      className={stylesheet.text__field_inner}
+                      id="yearOfBirth"
+                      label="Year of Birth"
+                      variant="outlined"
+                      value={formik.values.yearOfBirth}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.yearOfB && Boolean(formik.errors.yearOfB)
+                      }
+                      helperText={
+                        formik.touched.yearOfB && formik.errors.yearOfB
+                      }
+                    />
+                    <TextField
+                      className={stylesheet.text__field_inner}
+                      id="country"
+                      label="Country"
+                      variant="outlined"
+                      value={formik.values.country}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.country && Boolean(formik.errors.country)
+                      }
+                      helperText={
+                        formik.touched.country && formik.errors.country
+                      }
+                    />
+                    <TextField
+                      className={stylesheet.text__field_inner}
+                      id="city"
+                      label="City"
+                      variant="outlined"
+                      value={formik.values.city}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.city && Boolean(formik.errors.city)}
+                      helperText={formik.touched.city && formik.errors.city}
+                    />
+                    <TextField
+                      className={stylesheet.text__field_inner}
+                      id="gender"
+                      label="Gender"
+                      variant="outlined"
+                      value={formik.values.gender}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.gender && Boolean(formik.errors.gender)
+                      }
+                      helperText={formik.touched.gender && formik.errors.gender}
+                    />
+                  </div>
+
                   <div className={stylesheet.btn__bx}>
                     <button type="submit" className={stylesheet.trans__Btn}>
                       View Results

@@ -13,18 +13,18 @@ import GlobalFunctions from "../../lib/GlobalFunctions";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Loader from "@/components/Loader";
-import grid1 from "@/assets/qrgrid1.png"
-import grid2 from "@/assets/qrgrid2.png"
+// import grid1 from "@/assets/qrgrid2.png"
+// import grid2 from "@/assets/qrgrid2.png"
 import QuizLayout from "@/components/QuizLayout";
 const data = [
   {
-    image: grid1,
+    image: 'grid1',
     subHeading: "Try our speaking test",
     text: "Test your fluency and pronunciation in 15 minutes with our new speaking test!",
     navText: "quiz details",
   },
   {
-    image: grid2,
+    image: 'grid2',
     subHeading: "Get your EF SET Certificate",
     text: "Take the 50-minute EF SET to receive your personalized English certificate URL to add to your LinkedIn profile or CV.",
     navText: "text details",
@@ -287,7 +287,7 @@ export default function QuiaResult() {
                   <CardContent className={stylesheet.card__content}>
                     <div>
                       <Image
-                        src={cardData.image}
+                        src={''}
                         width={0}
                         height={0}
                         sizes="100vw"

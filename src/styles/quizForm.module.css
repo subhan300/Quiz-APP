@@ -41,16 +41,52 @@
     border: none;
     outline: none;
 }
+.trans__Btn:hover{
+    background-color: #79B3F8;
+    color: white;
+}
 .text__field {
     width: 100%;
-    margin: 1rem auto;
+    margin: 0rem auto;
+    display: flex;
+    flex-direction: column;
 }
+.text__field_inner{
+    margin-top: 16px;
+}
+.title{
+    font-weight: bold;
+    font-size: 1rem;
+}
+.text{
+    /* font-weight: bold;
+    font-size: 1.6rem; */
+    margin-bottom: 12px;
+    font-weight: 400;
+}
+
 @media (min-width: 768px) {
+    
     .card {
         width: 600px;
     }
     .text__field {
         width: 70%;
+        display: flex;
+        justify-content: center;
+    }   
+}
+
+@media (max-width: 768px) {
+    .cardBx{
+        padding:3rem 5px;
+
+    }
+    .card {
+ padding: 1rem .5rem;
+    }
+    .text__field {
+        width: 100%;
         display: flex;
         justify-content: center;
     }   

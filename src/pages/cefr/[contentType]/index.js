@@ -21,7 +21,7 @@ function DynamicTests() {
   }, [contentType]);
  
   return (
-    <div style={{ marginTop: "2rem" }}>
+    <div style={{ margin: "2rem 0",padding:"1rem 0" }}>
       <Grid justifyContent="center" container spacing={2}>
         {quizes.map((val) => (
           <Grid key={val.fields.slug} xs={11} md={4} item>

@@ -1,9 +1,11 @@
 import queries from "@/firebase/firestore/queries";
 import {
   Alert,
+  Backdrop,
   Box,
   Button,
   Card,
+  CircularProgress,
   Stack,
   TextField,
   Typography,
@@ -12,10 +14,10 @@ import React, { useState } from "react";
 import GlobalFunctions from "../../lib/GlobalFunctions";
 import Layout from "@/components/Layout";
 import CustomizedSnackbars from "@/components/toasters/Alert";
-
 function RetrieveCertificate() {
   const [email, setEmail] = useState("");
   const [open, setOpen] = React.useState(false);
+  const [loader, setLoader] = useState(false);
   const [alertInfo, setAlertInfo] = useState({
     message: "",
     alertType: "error",
@@ -24,21 +26,33 @@ function RetrieveCertificate() {
   const handleAlert = (message, alertType) => {
     setOpen(true);
     setAlertInfo({ message, alertType });
-    setEmail(" ")
+    setEmail(" ");
   };
   const handleEmailSend = async () => {
+    setLoader(true)
     const userExist = await queries.findDataExist(email);
-    console.log("user ", userExist);
     if (userExist) {
-      GlobalFunctions.sendEmail(userExist[0].email, "certificate recieved");
-
+      let name = userExist[0]?.firstName + userExist[0]?.lastName;
+      const certificateGenerate = await queries.createPdf(name);
+      GlobalFunctions.sendEmail(
+        userExist[0].email,
+        GlobalFunctions.emailTemplate(name, certificateGenerate.link)
+      );
+      setLoader(false)
       handleAlert("We have emailed Your Certificate", "success");
     } else {
       handleAlert("Email does not Exist", "error");
     }
+    setLoader(false)
   };
   return (
     <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loader}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <CustomizedSnackbars
         open={open}
         setOpen={setOpen}
