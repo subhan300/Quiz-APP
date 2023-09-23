@@ -34,7 +34,6 @@ function Quiz() {
   const router = useRouter();
   const params = router.query;
   const [loading, setLoading] = React.useState(true);
-  const [isIntersecting, setIsIntersecting] = useState(false);
   const quizState = State();
   const { quizInfo, allQuizes } = quizState;
   const actions = Actions();
@@ -42,14 +41,9 @@ function Quiz() {
   const [open, setOpen] = React.useState(false);
   const handleModal = (
     modalValue,
-    handleNextPayload,
-    isSkip,
-    questionCategory,
-    questionLeft
   ) => {
     setOpen(modalValue);
   };
-  const targetRef = useRef(null);
   const handleNext = (category, totalQuestions, questionCategory) => {
     if (
       quizInfo[category] ||
@@ -101,6 +95,7 @@ function Quiz() {
   };
 
   const scoreHandler = (questionCategory, handleNextPayload, isSkip) => {
+    
     const collectionType = handleNextPayload[3];
     let questionLeft = GlobalFunctions.getQuestionLeftModule(
       quizState,
@@ -122,6 +117,7 @@ function Quiz() {
     });
     setOpen(false);
     handleNext(...handleNextPayload);
+    actions.quizAnswerHandler([]);
   };
   const getKey = () => {
     const quizExist = quizState?.allQuizes?.quizQuestions?.length;

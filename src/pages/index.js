@@ -17,14 +17,11 @@ import stylesheet from "../styles/Home.module.css";
 import { Actions, State } from "@/context/context";
 import Certificate from "@/components/certificate";
 import Solution from "@/components/solution";
-import Footer from "@/components/footer";
 import QuizCard from "@/components/QuizCard";
-import queries from "../firebase/firestore/queries";
-import PageWithTabWarning from "@/components/PageWithTabWarning";
-import TopSliderDrawer from "@/components/TopSlideDrawer";
 import Layout from "@/components/Layout";
-import GlobalFunctions from "../../lib/GlobalFunctions";
-import myPdf from '../../public/pdf/mycertificate.pdf'; 
+
+
+
 export default function Home({ posts, allQuizes }) {
   const [quizes, setQuizes] = useState([]);
   const quizState = State();
@@ -42,7 +39,6 @@ export default function Home({ posts, allQuizes }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-   
       <div className={stylesheet.homeBx}>
         <div>
           <Certificate />

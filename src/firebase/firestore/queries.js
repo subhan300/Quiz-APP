@@ -55,19 +55,10 @@ async function createPdf(name) {
     const data = {
       link: pdfUrl,
     };
-    const { id, error } = await addLink("pdfs", data);
-    if (error) {
-      console.error("Error:", error);
-    } else {
-      console.log("Data added with ID:", id);
-    }
+   
     console.log("data", data);
     return data;
-
-    // Open the PDF in a new tab (you can also trigger a download)
-    window.open(pdfUrl, "_blank");
-
-    console.log("PDF manipulation complete.");
+  
   } catch (error) {
     console.error("Error:", error);
   }

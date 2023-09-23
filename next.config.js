@@ -21,3 +21,10 @@ module.exports = withImages({
   },
 });
 
+module.exports = {
+  // Other Next.js configuration options
+
+  images: {
+    domains: ['cdn.efset.org'], // Add your domain(s) here
+  },
+}

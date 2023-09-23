@@ -8,7 +8,6 @@ import {
   CardContent,
   CircularProgress,
   FormControl,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -17,7 +16,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import formSchema from "../../lib/formSchema";
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Actions, State } from "@/context/context";
 import { useRouter } from "next/router";
 import queries from "@/firebase/firestore/queries";
@@ -33,7 +32,7 @@ export default function NextQuestion() {
   });
   const contextState = State();
   const { userScore } = contextState;
-  const [loader,setLoader]=useState(false)
+  const [loader, setLoader] = useState(false);
   const { quizInfo } = contextState;
   const isQuiz = contextState?.allQuizes.isQuiz;
   const action = Actions();
@@ -41,7 +40,7 @@ export default function NextQuestion() {
   const handleAlert = (message, alertType) => {
     setOpen(true);
     setAlertInfo({ message, alertType });
-    setLoader(false)
+    setLoader(false);
   };
   const formik = useFormik({
     initialValues: {
@@ -58,14 +57,13 @@ export default function NextQuestion() {
     },
     validationSchema: formSchema.validationSchema,
     onSubmit: async (values) => {
-      setLoader(true)
+      setLoader(true);
       filterResult();
       action.setUserFormSubmit(true);
       const userExist = await queries.findDataExist(values.email);
       handleForm(values, userExist);
     },
   });
-
 
   const getQuestionLeft = (data, category) => {
     let questionCategory = "";
@@ -116,29 +114,28 @@ export default function NextQuestion() {
         isQuiz,
         userExist[0]
       );
-      if (updateResult === "success" ) {
-        
+      if (updateResult === "success") {
         router.push("/quizResult");
         handleAlert("Form Submitted Successfully", "success");
-        setLoader(false)
+        setLoader(false);
         return updateResult;
-      }  {
+      }
+      {
         handleAlert("Submit it again , there might be some issue", "error");
       }
-      setLoader(false)
-      return ;
+      setLoader(false);
+      return;
     }
-    const addData = await queries.addData("users", data.email, data,
-    isQuiz);
+    const addData = await queries.addData("users", data.email, data, isQuiz);
     if (addData === "success") {
       handleAlert("Form Submitted Successfully", "success");
       router.push("/quizResult");
-      setLoader(false)
+      setLoader(false);
     } else {
       handleAlert("Submit it again , there might be some issue", "error");
     }
-    setLoader(false)
-    return ;
+    setLoader(false);
+    return;
   };
   useEffect(() => {
     !Boolean(quizInfo.isQuizQuestionDone) ||
@@ -155,21 +152,20 @@ export default function NextQuestion() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Backdrop
-  sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-  open={loader}
-  
->
-  <CircularProgress color="inherit" />
-</Backdrop>
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loader}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <CustomizedSnackbars
         open={open}
         setOpen={setOpen}
         message={alertInfo.message}
         alertType={alertInfo.alertType}
       />
-     
-      { !Boolean(quizInfo.isQuizQuestionDone) ||
-      !Boolean(quizInfo.isQuizListeningDone) ?(
+
+      {!Boolean(quizInfo.isQuizQuestionDone) ||
+      !Boolean(quizInfo.isQuizListeningDone) ? (
         <h1
           style={{
             display: "flex",
@@ -238,9 +234,6 @@ export default function NextQuestion() {
                         formik.touched.firstName &&
                         Boolean(formik.errors.firstName)
                       }
-                      helperText={
-                        formik.touched.firstName && formik.errors.firstName
-                      }
                     />
                     <TextField
                       id="lastName"
@@ -253,9 +246,6 @@ export default function NextQuestion() {
                       error={
                         formik.touched.lastName &&
                         Boolean(formik.errors.lastName)
-                      }
-                      helperText={
-                        formik.touched.lastName && formik.errors.lastName
                       }
                     />
                   </div>
@@ -293,7 +283,6 @@ export default function NextQuestion() {
                       error={
                         formik.touched.email && Boolean(formik.errors.email)
                       }
-                      helperText={formik.touched.email && formik.errors.email}
                     />
                     <TextField
                       className={stylesheet.text__field_inner}
@@ -307,7 +296,6 @@ export default function NextQuestion() {
                       error={
                         formik.touched.phone && Boolean(formik.errors.phone)
                       }
-                      helperText={formik.touched.phone && formik.errors.phone}
                     />
                   </div>
 
@@ -336,7 +324,10 @@ export default function NextQuestion() {
                       </>
                     )}
 
-                    <FormControl  className={stylesheet.text__field_inner} sx={{ m: 0, minWidth: 120 }}>
+                    <FormControl
+                      className={stylesheet.text__field_inner}
+                      sx={{ m: 0, minWidth: 120 }}
+                    >
                       <InputLabel id="learningMethodLabel">
                         Preferred Learning
                       </InputLabel>
@@ -351,10 +342,6 @@ export default function NextQuestion() {
                         error={
                           formik.touched.learningMethod &&
                           Boolean(formik.errors.learningMethod)
-                        }
-                        helperText={
-                          formik.touched.learningMethod &&
-                          formik.errors.learningMethod
                         }
                       >
                         <MenuItem value="none">
@@ -405,9 +392,6 @@ export default function NextQuestion() {
                       error={
                         formik.touched.yearOfB && Boolean(formik.errors.yearOfB)
                       }
-                      helperText={
-                        formik.touched.yearOfB && formik.errors.yearOfB
-                      }
                     />
                     <TextField
                       className={stylesheet.text__field_inner}
@@ -420,9 +404,6 @@ export default function NextQuestion() {
                       error={
                         formik.touched.country && Boolean(formik.errors.country)
                       }
-                      helperText={
-                        formik.touched.country && formik.errors.country
-                      }
                     />
                     <TextField
                       className={stylesheet.text__field_inner}
@@ -433,7 +414,6 @@ export default function NextQuestion() {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       error={formik.touched.city && Boolean(formik.errors.city)}
-                      helperText={formik.touched.city && formik.errors.city}
                     />
                     <TextField
                       className={stylesheet.text__field_inner}
@@ -446,7 +426,6 @@ export default function NextQuestion() {
                       error={
                         formik.touched.gender && Boolean(formik.errors.gender)
                       }
-                      helperText={formik.touched.gender && formik.errors.gender}
                     />
                   </div>
 
