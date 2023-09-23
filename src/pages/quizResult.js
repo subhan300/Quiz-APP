@@ -33,7 +33,6 @@ export default function QuiaResult() {
 
   const { listeningQuestionLength, readingQuestionsLength } =
   quizInfo.ALLQuestionsTotalNumber
-  console.log(listeningQuestionLength,readingQuestionsLength )
   const total = listeningQuestionLength + readingQuestionsLength;
   useEffect(() => {
     if (!userFormSubmit) {
