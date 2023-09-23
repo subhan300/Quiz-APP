@@ -1,6 +1,6 @@
-/** @type {import('next').NextConfig} */
 require('dotenv').config();
 const withImages = require('next-images');
+
 module.exports = withImages({
   webpack(config, options) {
     config.module.rules.push({
@@ -19,12 +19,9 @@ module.exports = withImages({
 
     return config;
   },
-});
-
-module.exports = {
   // Other Next.js configuration options
 
   images: {
     domains: ['cdn.efset.org'], // Add your domain(s) here
   },
-}
+});

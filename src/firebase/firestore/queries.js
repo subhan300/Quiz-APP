@@ -78,7 +78,6 @@ const addData = async (collection, id, data, isQuiz) => {
   let result = null;
   let error = null;
   try {
-    debugger
     result = await setDoc(doc(db, collection, id), data, {
       merge: true,
     });
@@ -99,7 +98,6 @@ const addData = async (collection, id, data, isQuiz) => {
 const updateUserScore = async (userId, prevData, newScore, isQuiz,user) => {
   try {
     // Combine the previous userScore array with the new score
-    debugger
     const updatedUserScore = [...prevData, newScore];
     let name = user?.firstName + user.lastName;
     const certificateGenerate = await createPdf(name);

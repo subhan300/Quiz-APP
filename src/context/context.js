@@ -27,6 +27,9 @@ const initialState = {
     listeningQuestionLength: 0,
     isQuizListeningDone: false,
     activeStep: 0,
+    ALLQuestionsTotalNumber:{
+      listeningQuestionLength:0, readingQuestionsLength :0
+    }
   },
   userScore: {
     listening: 0,

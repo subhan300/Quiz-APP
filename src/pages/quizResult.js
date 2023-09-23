@@ -1,11 +1,6 @@
 import Head from "next/head";
 import stylesheet from "../styles/quizResult.module.css";
-import {
-  Card,
-  CardContent,
-  CircularProgress,
-  Grid,
-} from "@mui/material";
+import { Card, CardContent, CircularProgress, Grid } from "@mui/material";
 import Image from "next/image";
 import { State } from "@/context/context";
 import GlobalFunctions from "../../lib/GlobalFunctions";
@@ -16,13 +11,13 @@ import QuizLayout from "@/components/QuizLayout";
 
 const data = [
   {
-    image: 'https://cdn.efset.org/efset-widget/img/combined_efset_0_2x.png',
+    image: "https://cdn.efset.org/efset-widget/img/combined_efset_0_2x.png",
     subHeading: "Try our speaking test",
     text: "Test your fluency and pronunciation in 15 minutes with our new speaking test!",
     navText: "quiz details",
   },
   {
-    image: 'https://cdn.efset.org/efset-widget/img/combined_efset_0_2x.png',
+    image: "https://cdn.efset.org/efset-widget/img/combined_efset_0_2x.png",
     subHeading: "Get your EF SET Certificate",
     text: "Take the 50-minute EF SET to receive your personalized English certificate URL to add to your LinkedIn profile or CV.",
     navText: "text details",
@@ -30,11 +25,16 @@ const data = [
 ];
 
 export default function QuiaResult() {
-  const { userScore, userFormSubmit } = State();
+  const { userScore, userFormSubmit, quizInfo} = State();
+
   const router = useRouter();
   const totalMarks = userScore.listening + userScore.reading;
-  const total = 20;
-
+  console.log(quizInfo)
+  const { listeningQuestionLength, readingQuestionsLength } =
+  quizInfo.ALLQuestionsTotalNumber
+  console.log(listeningQuestionLength,readingQuestionsLength )
+  const total = listeningQuestionLength + readingQuestionsLength;
+ console.log( GlobalFunctions.getScorePercentage(totalMarks, total))
   return (
     <>
       <Head>
@@ -198,7 +198,9 @@ export default function QuiaResult() {
                 </div>
               </div>
               <div className={stylesheet.result__tableCont}>
-                <h1 style={{ paddingLeft: ".6rem" }}>Quick check score table</h1>
+                <h1 style={{ paddingLeft: ".6rem" }}>
+                  Quick check score table
+                </h1>
                 <table>
                   <thead>
                     <tr>
@@ -326,9 +328,5 @@ export default function QuiaResult() {
 }
 
 QuiaResult.getLayout = function getLayout(page) {
-  return (
-    <QuizLayout>
-      {page}
-    </QuizLayout>
-  );
+  return <QuizLayout>{page}</QuizLayout>;
 };
