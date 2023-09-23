@@ -9,11 +9,11 @@ import {
   setDoc,
   collection,
   getDocs,
-  query, where,updateDoc
+  query, where,updateDoc,addDoc
 } from "firebase/firestore";
 const db = getFirestore(firebase_app);
 const storage = getStorage();
-async function createPdf() {
+async function createPdf(name) {
   try {
     // Generate the PDF as you were doing
     // Load the PDF file using a relative path
@@ -24,7 +24,7 @@ async function createPdf() {
     const pages = pdfDoc.getPages();
     const firstPage = pages[0];
 
-    firstPage.drawText('Subhan Akram', {
+    firstPage.drawText(name, {
       x: 290,
       y: 300,
       size: 40,
@@ -57,6 +57,8 @@ async function createPdf() {
     } else {
       console.log('Data added with ID:', id);
     }
+    console.log("data",data)
+    return data
 
     // Open the PDF in a new tab (you can also trigger a download)
     window.open(pdfUrl, '_blank');
@@ -64,6 +66,17 @@ async function createPdf() {
     console.log('PDF manipulation complete.');
   } catch (error) {
     console.error('Error:', error);
+  }
+}
+async function addLink(collectionName, data) {
+  try {
+    // Add the data to the collection
+    const docRef = await addDoc(collection(db, collectionName), data);
+    
+    // Return the auto-generated ID
+    return { id: docRef.id, error: null };
+  } catch (error) {
+    return { id: null, error };
   }
 }
 const addData = async (collection, id, data) => {

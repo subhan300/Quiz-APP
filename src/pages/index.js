@@ -42,7 +42,7 @@ export default function Home({ posts, allQuizes }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-   <Button onClick={()=>{queries.createPdf()}}>click here</Button>
+   
       <div className={stylesheet.homeBx}>
         <div>
           <Certificate />
