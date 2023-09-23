@@ -4,14 +4,24 @@
   border: "1px solid red";
   height: 400px;
   height: 48px;
-  /* border-top-left-radius: 4px; */
-  margin-top: 3.3rem;
 
- 
-  /* border: 1px solid blue; */
-  /* margin-top: 6rem; */
+  margin-top: 3.3rem !important;
 }
-.progress_toolbar{
+.progress_toolbar {
+  gap: 1rem;
+  display: flex;
+  flex-direction: row !important;
+  z-index: 800;
+  padding: 0 8px;
+  position: sticky;
+  font-size: .8rem;
+  background: #fff;
+  box-shadow: 0 2px 6px 0 rgba(25, 25, 25, 0.25);
+  justify-content: space-between !important; /* Use justify-content for space between items */
+  padding-top: 1rem !important;
+}
+
+/* .progress_toolbar{
   gap: 1rem;
   display: flex;
   flex-direction: row;
@@ -24,7 +34,7 @@
   align-items: space-between;
   justify-content: center;
   padding-top: 1rem;
-}
+} */
 .category {
   color: skyblue;
   font-size: 14px;
@@ -36,7 +46,7 @@
   display: flex;
   align-items: center;
   gap: 3px;
-  border: "1px solid blue";
+  /* border: "1px solid blue"; */
 }
 .progressBar{
   width: 100%;
