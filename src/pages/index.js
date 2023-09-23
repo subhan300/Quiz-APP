@@ -23,6 +23,8 @@ import queries from "../firebase/firestore/queries";
 import PageWithTabWarning from "@/components/PageWithTabWarning";
 import TopSliderDrawer from "@/components/TopSlideDrawer";
 import Layout from "@/components/Layout";
+import GlobalFunctions from "../../lib/GlobalFunctions";
+import myPdf from '../../public/pdf/mycertificate.pdf'; 
 export default function Home({ posts, allQuizes }) {
   const [quizes, setQuizes] = useState([]);
   const quizState = State();
@@ -40,7 +42,7 @@ export default function Home({ posts, allQuizes }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+   <Button onClick={()=>{queries.createPdf()}}>click here</Button>
       <div className={stylesheet.homeBx}>
         <div>
           <Certificate />

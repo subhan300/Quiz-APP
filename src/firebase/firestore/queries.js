@@ -1,4 +1,7 @@
 import firebase_app from "../config";
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import myPdf from "../../../public/pdf/mycertificate.pdf"
 
 import {
   getFirestore,
@@ -9,6 +12,60 @@ import {
   query, where,updateDoc
 } from "firebase/firestore";
 const db = getFirestore(firebase_app);
+const storage = getStorage();
+async function createPdf() {
+  try {
+    // Generate the PDF as you were doing
+    // Load the PDF file using a relative path
+    const pdfBytes = await fetch(myPdf).then((res) => res.arrayBuffer());
+    // Load the PDF document
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+    const pages = pdfDoc.getPages();
+    const firstPage = pages[0];
+
+    firstPage.drawText('Subhan Akram', {
+      x: 290,
+      y: 300,
+      size: 40,
+      color: rgb(0, 0, 0),
+    });
+
+    const pdfBytesModified = await pdfDoc.save();
+
+    // Specify the desired filename with .pdf extension
+    const customFilename = 'certificate.pdf';
+
+    // Create a reference to the PDF file in Firebase Cloud Storage with the custom filename
+    const pdfFileRef = ref(storage, `pdfs/${customFilename}`);
+
+    // Upload the PDF file
+    await uploadBytes(pdfFileRef, pdfBytesModified);
+
+    console.log('PDF uploaded successfully');
+
+    // Get the download URL for the uploaded PDF
+    const pdfUrl = await getDownloadURL(pdfFileRef) + "?inline=true";
+
+    // Save the custom link in Firestore
+    const data = {
+      link: pdfUrl,
+    };
+    const { id, error } = await addLink('pdfs', data);
+    if (error) {
+      console.error('Error:', error);
+    } else {
+      console.log('Data added with ID:', id);
+    }
+
+    // Open the PDF in a new tab (you can also trigger a download)
+    window.open(pdfUrl, '_blank');
+
+    console.log('PDF manipulation complete.');
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
 const addData = async (collection, id, data) => {
   let result = null;
   let error = null;
@@ -83,5 +140,6 @@ export default {
   addData,
   getData,
   findDataExist,
-  updateUserScore
+  updateUserScore,
+  createPdf
 };
