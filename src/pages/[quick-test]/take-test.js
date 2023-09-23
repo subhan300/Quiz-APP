@@ -276,7 +276,7 @@ console.log("wquiz",quizState)
                           userQuizCollection={userQuizCollection}
                           dotQuestionInfo={
                             quizState?.allQuizes?.quizQuestions[
-                              quizState.quizInfo.activeStep
+                              quizState?.quizInfo?.activeStep
                             ][getKey()]
                           }
                         />
