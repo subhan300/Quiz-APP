@@ -153,7 +153,7 @@ console.log("wquiz",quizState)
 
   return (
     <div>
-      {/* <PageWithTabWarning /> */}
+      <PageWithTabWarning />
 
       {(Boolean(quizInfo.isQuizQuestionDone) &&
         Boolean(quizInfo.isQuizListeningDone)) ||

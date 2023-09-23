@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Loader from "@/components/Loader";
 
 import QuizLayout from "@/components/QuizLayout";
+import { useEffect } from "react";
 
 const data = [
   {
