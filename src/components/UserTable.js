@@ -15,12 +15,10 @@ import DrawerResultCard from "./DrawerResultCard";
 
 const columns = [
   { id: "email", label: "Email" },
+
   { id: "firstName", label: "First Name" },
 
-  {
-    id: "gender",
-    label: "Gender",
-  },
+  ,
   {
     id: "phone",
     label: "Phone",
@@ -28,28 +26,34 @@ const columns = [
     format: (value) => value.toFixed(2),
   },
   {
-    id: "yearOfBirth",
-    label: "Birth Year",
-    // minWidth: 170,
-    format: (value) => value.toFixed(2),
+    id: "learningMethod",
+    label: "Preffered Learning",
+    // minWidth: "150px",
   },
   {
+    id: "consent",
+    label: "Consent",
+    // minWidth:'150px'
+  },
+
+  {
     id: "Actions",
-    label: "Results",
+    label: "Result/Certificate",
     align: "left",
-    // minWidth: 200,
   },
 ];
 
 export default function UserTable({ userData }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [drawerData, setDrawerData] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-  const handleDrawer = (drawerState) => {
+  const handleDrawer = (drawerState, row) => {
     setOpen(drawerState);
+    setDrawerData(row);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -67,9 +71,12 @@ export default function UserTable({ userData }) {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{
+                    minWidth: column.minWidth,
+                    maxWidth: column?.maxWidth,
+                  }}
                 >
-                  {column.label}
+                  {`${column.label}`}
                 </TableCell>
               ))}
             </TableRow>
@@ -77,31 +84,42 @@ export default function UserTable({ userData }) {
           <TableBody>
             {userData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row,i) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
+                  <TableRow key={`${Math.random()}-${i}`} hover role="checkbox" tabIndex={-1}>
+                    {columns.map((column,i) => {
+                      let value = row[column.id];
+                      if (column.id === "consent") {
+                        value = `${value}`;
+                        value = value[0].toUpperCase() + value.slice(1);
+                      }
                       return (
                         value && (
-                          <TableCell key={column.id} align={column.align}>
-                            {value}
+                          <TableCell
+                            style={{
+                              minWidth: column.minWidth,
+                              maxWidth: column.maxWidth,
+                            }}
+                            key={`${column.id}-${i}`}
+                            align={column.align}
+                          >
+                            {`${value}`}
                           </TableCell>
                         )
                       );
                     })}
-                    <TableCell key="Actions">
+                    <TableCell key="Actions" >
                       <Button
                         onClick={() => {
-                          handleDrawer(true);
+                          handleDrawer(true, row);
                         }}
                         variant="contained"
-                        style={{backgroundColor:"black",color:"white"}}
+                        style={{ backgroundColor: "black", color: "white" }}
                       >
                         Show Result
                       </Button>
                       <Button>
-                        <DownloadOutlined style={{color:"black"}} />
+                        <DownloadOutlined style={{ color: "black" }} />
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -118,7 +136,6 @@ export default function UserTable({ userData }) {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-
       />
       <Drawer
         sx={{
@@ -138,12 +155,11 @@ export default function UserTable({ userData }) {
             onClick={() => {
               handleDrawer(false);
             }}
-       
           >
-            <ChevronRight   />
+            <ChevronRight />
           </IconButton>
         </DrawerHeader>
-        <DrawerResultCard data={userData} />
+        <DrawerResultCard data={drawerData} />
       </Drawer>
     </Paper>
   );

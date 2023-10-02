@@ -29,21 +29,24 @@ function RetrieveCertificate() {
     setEmail(" ");
   };
   const handleEmailSend = async () => {
-    setLoader(true)
+    setLoader(true);
     const userExist = await queries.findDataExist(email);
     if (userExist) {
       let name = userExist[0]?.firstName + userExist[0]?.lastName;
-      const certificateGenerate = await queries.createPdf(name);
+      const certificatesCollection = userExist[0].result.map((val) => ({
+        date: GlobalFunctions.formatTimestampToDateTime(val.date),
+        link: val.certificateLink,
+      }));
       GlobalFunctions.sendEmail(
         userExist[0].email,
-        GlobalFunctions.emailTemplate(name, certificateGenerate.link)
+        GlobalFunctions.emailTemplateCollection(name, certificatesCollection)
       );
-      setLoader(false)
+      setLoader(false);
       handleAlert("We have emailed Your Certificate", "success");
     } else {
       handleAlert("Email does not Exist", "error");
     }
-    setLoader(false)
+    setLoader(false);
   };
   return (
     <>

@@ -19,7 +19,6 @@ function AuthGuard({children}) {
             // ...
             router.push("/Login")
             setUserLoggedIn('notLoggedIn')
-            console.log("user is logged out");
           }
         });
       }, []);

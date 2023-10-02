@@ -20,16 +20,17 @@ const initialState = {
   pageLoad: false,
   allQuizes: [],
   userFormSubmit: false,
-  quizUserAnswerSelection:[],
+  quizUserAnswerSelection: [],
   quizInfo: {
     isQuizQuestionDone: false,
     questionsLength: 0,
     listeningQuestionLength: 0,
     isQuizListeningDone: false,
     activeStep: 0,
-    ALLQuestionsTotalNumber:{
-      listeningQuestionLength:0, readingQuestionsLength :0
-    }
+    ALLQuestionsTotalNumber: {
+      listeningQuestionLength: 0,
+      readingQuestionsLength: 0,
+    },
   },
   userScore: {
     listening: 0,
@@ -41,6 +42,104 @@ const initialState = {
     },
   },
   progress: 0,
+  // userScore: {
+  //   listening: 40,
+  //   reading: 70,
+  //   allQuizUserDetail: [
+  //     {
+  //       answer: 'Java',
+  //       givenAnswer: 'Java',
+  //       score: 10,
+  //       questionCategory: 'reading',
+  //       id: 'Which of the following programming languages do you know?'
+  //     },
+  //     {
+  //       answer: 'I developed a web application for a client.',
+  //       givenAnswer: 'I developed a web application for a client.',
+  //       score: 10,
+  //       questionCategory: 'reading',
+  //       id: 'What programming projects have you worked on recently?'
+  //     },
+  //     {
+  //       answer: 'Python',
+  //       givenAnswer: 'Python',
+  //       score: 10,
+  //       questionCategory: 'reading',
+  //       id: 'What is your preferred programming language?'
+  //     },
+  //     {
+  //       answer: 'I faced a complex concurrency issue while working on a multi-threaded application.',
+  //       givenAnswer: 'I faced a complex concurrency issue while working on a multi-threaded application.',
+  //       score: 10,
+  //       questionCategory: 'reading',
+  //       id: 'Can you describe your most challenging programming problem?'
+  //     },
+  //     {
+  //       answer: 'I optimized a database query that improved response times by 30%.',
+  //       givenAnswer: 'I optimized a database query that improved response times by 30%.',
+  //       score: 10,
+  //       questionCategory: 'reading',
+  //       id: 'Tell me about a project where you had to optimize performance.'
+  //     },
+  //     {
+  //       answer: 'Java',
+  //       givenAnswer: 'Java',
+  //       score: 10,
+  //       questionCategory: 'reading',
+  //       id: 'Which of the following programming languages do you know tell?'
+  //     },
+  //     {
+  //       answer: 'Python',
+  //       givenAnswer: 'C++',
+  //       score: 0,
+  //       questionCategory: 'reading',
+  //       id: 'What is your favourite programming language?'
+  //     },
+  //     {
+  //       answer: 'I developed a web application for a client.',
+  //       givenAnswer: 'I developed a web application for a client.',
+  //       score: 10,
+  //       questionCategory: 'reading',
+  //       id: 'What programming projects have you worked on recently last time?'
+  //     },
+  //     {
+  //       answer: 'Java',
+  //       givenAnswer: 'Java',
+  //       score: 10,
+  //       questionCategory: 'listening',
+  //       id: 'Which of the following programming languages do you know professonaly?'
+  //     },
+  //     {
+  //       answer: 'Python',
+  //       givenAnswer: 'C++',
+  //       score: 0,
+  //       questionCategory: 'listening',
+  //       id: 'What is your interested?'
+  //     },
+  //     {
+  //       answer: 'I developed a web application for a client.',
+  //       givenAnswer: 'I developed a web application for a client.',
+  //       score: 10,
+  //       questionCategory: 'listening',
+  //       id: 'What programming projects have seen?'
+  //     },
+  //     {
+  //       answer: 'I optimized a database query that improved response times by 30%.',
+  //       givenAnswer: 'I optimized a database query that improved response times by 30%.',
+  //       score: 10,
+  //       questionCategory: 'listening',
+  //       id: 'Tell me about a project where you had to optimize performance. ?'
+  //     },
+  //     {
+  //       answer: 'I faced a complex concurrency issue while working on a multi-threaded application.',
+  //       givenAnswer: 'I faced a complex concurrency issue while working on a multi-threaded application.',
+  //       score: 10,
+  //       questionCategory: 'listening',
+  //       id: 'Can you describe your most challenging programming problem in your life?'
+  //     }
+  //   ],
+  //   questionLeft: { listening: 1, reading: 3 }
+  // }
 };
 
 const ActionsContext = React.createContext(null, null);
@@ -92,13 +191,11 @@ export function reducer(state, action) {
     case QUIZ_CLOSE:
       return { ...state, quizInfo: { ...state.quizInfo, ...action.payload } };
     case QUIZ_RESET:
-      return initialState
+      return initialState;
     case SET_USER_QUIZ_HANDLER:
-      return {...state,quizUserAnswerSelection:action.payload}
-
+      return { ...state, quizUserAnswerSelection: action.payload };
 
     default:
-
       return state;
   }
 }
@@ -119,9 +216,9 @@ const ContextProvider = ({ children }) => {
     setPageLoad: actionsFunctions.setPageLoad(dispatch),
     setProgress: actionsFunctions.setProgress(dispatch),
     setUserFormSubmit: actionsFunctions.setUserFormSubmit(dispatch),
-    QuizCloseOnTimeout:actionsFunctions.QuizCloseOnTimeout(dispatch),
-    quizReset:actionsFunctions.quizReset(dispatch),
-    quizAnswerHandler:actionsFunctions.quizAnswerHandler(dispatch)
+    QuizCloseOnTimeout: actionsFunctions.QuizCloseOnTimeout(dispatch),
+    quizReset: actionsFunctions.quizReset(dispatch),
+    quizAnswerHandler: actionsFunctions.quizAnswerHandler(dispatch),
   });
 
   const theme = () => {
@@ -129,7 +226,8 @@ const ContextProvider = ({ children }) => {
       palette: {
         mode,
       },
-      primaryColor: "red",
+      // primaryColor: "red",
+      // customShadows: { z24: "red" },
     });
   };
   return (

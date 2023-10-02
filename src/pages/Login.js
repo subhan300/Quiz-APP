@@ -1,3 +1,5 @@
+"use client";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import {
   Box,
   Button,
@@ -8,89 +10,126 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import styled from "styled-components";
-import {  signInWithEmailAndPassword   } from 'firebase/auth';
-import { auth } from '../firebase/config';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config";
 import { useRouter } from "next/router";
+import CertificateCreate from "@/components/pdf-generation/CertificateCreate";
+
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({ email: "", password: "" });
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const router=useRouter()
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  const router = useRouter();
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
   const handleLogin = (data) => {
     signInWithEmailAndPassword(auth, user.email, user.password)
-    .then((userCredential) => {
+      .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        router.push("/dashboard")
-    })
-    .catch((error) => {
+        router.push("/dashboard");
+      })
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
-    });
+        console.log(errorCode, errorMessage);
+      });
   };
+ 
+ 
+ 
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        marginTop: "3rem",
-      }}
-    >
-      <h1 style={{ fontSize: "32px", color: "skyblue" }}>Admin Login </h1>
-      <FormControl sx={{ m: 4, width: "300px" }} variant="outlined">
-        {/* <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel> */}
-        <CustomTextField
-          id="outlined-adornment-email"
-          type={"text"}
-          label="Email"
-          onChange={(e) => {
-            setUser((prev) => ({ ...prev, email: e.target.value }));
-          }}
-        />
-      </FormControl>
-      <FormControl sx={{ m: 1, width: "300px" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-        <CustomOutlineInput
-          onChange={(e) => {
-            setUser((prev) => ({ ...prev, password: e.target.value }));
-          }}
-          id="outlined-adornment-password"
-          type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Password"
-        />
-      </FormControl>
-      <Button
-        onClick={() => {
-          handleLogin();
+    <>
+      {/* {isClient && (
+        <PDFViewer width="1500" height="800">
+          <CertificateCreate />
+        </PDFViewer>
+      )} */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          marginTop: "3rem",
         }}
-        sx={{marginTop:"1rem",width:'300px',padding:".5rem",fontWeight:"bold",background:"black"}}
-        variant="contained"
       >
-        Login
-      </Button>
-    </Box>
+        {/* {isClient && (
+          <PDFDownloadLink
+            document={<CertificateCreate />}
+            fileName="Calculated-Data.pdf"
+          >
+            {({ blob, url, loading, error }) => (
+              <Button className="download_pdf">Download as PDF</Button>
+            )}
+          </PDFDownloadLink>
+        )} */}
+
+        <h1 style={{ fontSize: "32px", color: "skyblue" }}>Admin Login </h1>
+        <FormControl sx={{ m: 4, width: "300px" }} variant="outlined">
+          {/* <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel> */}
+          <CustomTextField
+            id="outlined-adornment-email"
+            type={"text"}
+            label="Email"
+            onChange={(e) => {
+              setUser((prev) => ({ ...prev, email: e.target.value }));
+            }}
+          />
+        </FormControl>
+        <FormControl sx={{ m: 1, width: "300px" }} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">
+            Password
+          </InputLabel>
+          <CustomOutlineInput
+            onChange={(e) => {
+              setUser((prev) => ({ ...prev, password: e.target.value }));
+            }}
+            id="outlined-adornment-password"
+            type={showPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
+        <Button
+          onClick={() => {
+            handleLogin();
+          }}
+          sx={{
+            marginTop: "1rem",
+            width: "300px",
+            padding: ".5rem",
+            fontWeight: "bold",
+            background: "black",
+          }}
+          variant="contained"
+        >
+          Login
+        </Button>
+      </Box>
+    </>
   );
 }
 

@@ -9,9 +9,12 @@ import useWindowWidth from "@/hooks/useCurrentWidth";
 import ResponsiveMenu from "./responsiveMenu";
 import dynamicData from "../../lib/dynamicData";
 import { State } from "@/context/context";
-function Navbar({ menuCollection }) {
+import contentful from "../../lib/contentful";
+function Navbar() {
   const [show, handleShow] = useState(false);
   const [open, setOpen] = useState(false);
+  const [menuCollection, setMenuCollection] = useState([]);
+ 
   const { pageLoad } = State();
   let obj = { open: false };
   const [fixOnScroll, setFixOnScroll] = useState(false);
@@ -20,6 +23,10 @@ function Navbar({ menuCollection }) {
   useEffect(() => {
     setOpen(false);
   }, [currentWidth]);
+   
+  useEffect(() => {
+    contentful.getAllQuizes(setMenuCollection);
+  }, []);
   return (
     <>
       <nav
@@ -101,7 +108,7 @@ function Navbar({ menuCollection }) {
               </div>
 
               <ul  className={navStyles.nav__content_links}>
-                {dynamicData.menuCollection(menuCollection).map((val) => {
+                {dynamicData.menuCollection(menuCollection)?.map((val) => {
                   return (
                     <li key={val.title} style={{width:"100%"}}>
                       {" "}

@@ -9,7 +9,6 @@ export default function Dashboard() {
         const data=await queries.getData("users")
         setUserData(data.result)
       }
-     
       useEffect(() => {
         getData()
       }, []);

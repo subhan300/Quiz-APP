@@ -6,8 +6,10 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   CircularProgress,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
@@ -22,6 +24,8 @@ import { useRouter } from "next/router";
 import queries from "@/firebase/firestore/queries";
 import Layout from "@/components/Layout";
 import CustomizedSnackbars from "@/components/toasters/Alert";
+import { CheckBox } from "@mui/icons-material";
+import GlobalFunctions from "../../lib/GlobalFunctions";
 
 export default function NextQuestion() {
   const result = { listening: 0, audio: 0 };
@@ -31,10 +35,15 @@ export default function NextQuestion() {
     alertType: "error",
   });
   const contextState = State();
-  const { userScore } = contextState;
+  const { userScore, userFormSubmit } = contextState;
   const [loader, setLoader] = useState(false);
   const { quizInfo } = contextState;
   const isQuiz = contextState?.allQuizes.isQuiz;
+  const totalMarks = userScore.listening + userScore.reading;
+  const quizTitle = contextState?.allQuizes?.title;
+  const { listeningQuestionLength, readingQuestionsLength } =
+    quizInfo.ALLQuestionsTotalNumber;
+  const total = listeningQuestionLength * 10 + readingQuestionsLength * 10;
   const action = Actions();
   const router = useRouter();
   const handleAlert = (message, alertType) => {
@@ -42,69 +51,35 @@ export default function NextQuestion() {
     setAlertInfo({ message, alertType });
     setLoader(false);
   };
+  let certificatePayload = [
+    "Listening Score",
+    `${userScore.listening}/${listeningQuestionLength * 10}`,
+    "Reading Score",
+    `${userScore.reading}/${readingQuestionsLength * 10}`,
+    quizTitle,
+    `${totalMarks}/${total}`,
+  ];
   const formik = useFormik({
     initialValues: {
       firstName: "subhan",
       lastName: "s",
-      yearOfBirth: "s",
       email: "subhan.akram1971@gmail.com",
-      country: "s",
-      city: "s",
-      gender: "s",
       phone: "s",
       result: [{ userScore }],
       learningMethod: "online",
+      consent: false,
     },
     validationSchema: formSchema.validationSchema,
     onSubmit: async (values) => {
       setLoader(true);
-      filterResult();
+      // filterResult();
+      handleResult();
       action.setUserFormSubmit(true);
       const userExist = await queries.findDataExist(values.email);
       handleForm(values, userExist);
     },
   });
 
-  const getQuestionLeft = (data, category) => {
-    let questionCategory = "";
-    if (category === "reading") {
-      questionCategory = "readingQuestionsLength";
-    } else if (category === "listening") {
-      questionCategory = "listeningQuestionLength";
-    }
-    const questionLeft =
-      quizInfo.ALLQuestionsTotalNumber[questionCategory] - data.length;
-    action.handleUserScore({
-      allQuizUserDetail: [],
-      questionLeft: { [category]: questionLeft },
-    });
-    return questionLeft;
-  };
-  const filterResult = () => {
-    let readingCollection = [];
-    let listeningCollection = [];
-    for (const obj of userScore.allQuizUserDetail) {
-      if (obj.questionCategory === "reading") {
-        readingCollection.push(obj);
-      } else {
-        listeningCollection.push(obj);
-      }
-    }
-
-    const listening = calculateResult(listeningCollection, "listening");
-
-    const reading = calculateResult(readingCollection, "reading");
-    action.setResult({ listening, reading });
-  };
-
-  const calculateResult = (collection, category) => {
-    let result = collection.reduce((acc, val) => acc + val.score, 0);
-
-    const questionLeft = getQuestionLeft(collection, category);
-    const score = result - questionLeft * 10;
-    result = score > 0 ? score : 0;
-    return result;
-  };
   const handleForm = async (data, userExist) => {
     if (userExist?.length) {
       const updateResult = await queries.updateUserScore(
@@ -112,7 +87,8 @@ export default function NextQuestion() {
         userExist[0].result,
         userScore,
         isQuiz,
-        userExist[0]
+        userExist[0],
+        certificatePayload
       );
       if (updateResult === "success") {
         router.push("/quizResult");
@@ -120,13 +96,19 @@ export default function NextQuestion() {
         setLoader(false);
         return updateResult;
       }
-      {
+     else {
         handleAlert("Submit it again , there might be some issue", "error");
       }
       setLoader(false);
       return;
     }
-    const addData = await queries.addData("users", data.email, data, isQuiz);
+    const addData = await queries.addData(
+      "users",
+      data.email,
+      data,
+      isQuiz,
+      certificatePayload
+    );
     if (addData === "success") {
       handleAlert("Form Submitted Successfully", "success");
       router.push("/quizResult");
@@ -137,9 +119,14 @@ export default function NextQuestion() {
     setLoader(false);
     return;
   };
+  const handleResult = async () => {
+    const result = await GlobalFunctions.resultCheckApi({ userScore, isQuiz });
+    action.setResult(result);
+  };
   useEffect(() => {
     !Boolean(quizInfo.isQuizQuestionDone) ||
-    !Boolean(quizInfo.isQuizListeningDone)
+    !Boolean(quizInfo.isQuizListeningDone) ||
+    userFormSubmit
       ? router.push("/")
       : "";
   }, []);
@@ -151,6 +138,7 @@ export default function NextQuestion() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loader}
@@ -356,83 +344,48 @@ export default function NextQuestion() {
                       </Select>
                     </FormControl>
                   </div>
-                  <div className={stylesheet.text__field}>
-                    {isQuiz && (
-                      <>
-                        <Typography
-                          className={stylesheet.title}
-                          mt={3}
-                          sx={{ marginBottom: "2px !important" }}
-                          align="left"
-                          variant="subtitle1"
-                          gutterBottom={false}
-                        >
-                          Help our research
-                        </Typography>
-                        <Typography
-                          className={stylesheet.text}
-                          sx={{ width: "80%" }}
-                          variant="subtitle2"
-                          gutterBottom={false}
-                        >
-                          We use these details anonymously to research English
-                          proficiency
-                        </Typography>
-                      </>
-                    )}
-
-                    <TextField
-                      className={stylesheet.text__field_inner}
-                      id="yearOfBirth"
-                      label="Year of Birth"
-                      variant="outlined"
-                      value={formik.values.yearOfBirth}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.yearOfB && Boolean(formik.errors.yearOfB)
+                  <div className={stylesheet.text__field_consent}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          id="consent"
+                          color="primary"
+                          checked={formik.values.consent}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.consent}
+                          // error={Boolean(
+                          //   formik.touched.consent && formik.errors.consent
+                          // )}
+                        />
                       }
+                      // label="* Yes, I (or my legal guardian) have read and understood
+                      // how EF processes my personal data as set out in the
+                      // Privacy Policy."
                     />
-                    <TextField
-                      className={stylesheet.text__field_inner}
-                      id="country"
-                      label="Country"
-                      variant="outlined"
-                      value={formik.values.country}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.country && Boolean(formik.errors.country)
-                      }
-                    />
-                    <TextField
-                      className={stylesheet.text__field_inner}
-                      id="city"
-                      label="City"
-                      variant="outlined"
-                      value={formik.values.city}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={formik.touched.city && Boolean(formik.errors.city)}
-                    />
-                    <TextField
-                      className={stylesheet.text__field_inner}
-                      id="gender"
-                      label="Gender"
-                      variant="outlined"
-                      value={formik.values.gender}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.gender && Boolean(formik.errors.gender)
-                      }
-                    />
+                    <Typography
+                      className={stylesheet.title_consent}
+                      // mt={3}
+                      // align="left"
+                      variant="subtitle1"
+                      gutterBottom={false}
+                    >
+                      * Yes, I (or my legal guardian) have read and understood
+                      how EF processes my personal data as set out in the
+                      Privacy Policy.
+                    </Typography>
                   </div>
 
                   <div className={stylesheet.btn__bx}>
-                    <button type="submit" className={stylesheet.trans__Btn}>
+                    <Button
+                      // disabled={
+                      //   Object.keys(formik.errors).length > 0 || userFormSubmit
+                      // }
+                      type="submit"
+                      className={stylesheet.trans__Btn}
+                    >
                       View Results
-                    </button>
+                    </Button>
                   </div>
                 </form>
               </CardContent>

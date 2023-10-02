@@ -17,7 +17,8 @@ const {
 const getALLQuestionsLength = (data) => {
   const readingQuestionsLength = data.quizQuestions.reduce(
     (acc, subArray) =>{
-      return acc + GlobalFunctions.getObjectKey(subArray).length}
+      let keyI=GlobalFunctions.getObjectKey(subArray)
+      return acc + subArray[GlobalFunctions.getObjectKey(subArray)].length}
     ,
     0
   );

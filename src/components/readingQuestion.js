@@ -3,25 +3,13 @@ import stylesheet from "../styles/readingQuestion.module.css";
 import {
   Card,
   CardContent,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography,
 } from "@mui/material";
 import { useState } from "react";
-import Solution from "./solution";
-import Certificate from "./certificate";
-import { useMediaQuery } from "@mui/material";
-import useAnswerCheck from "@/hooks/useAnswerCheck";
-import { Actions, State } from "@/context/context";
 import GlobalFunctions from "../../lib/GlobalFunctions";
 import RadioOptions from "./options/RadioOptions";
 import CheckboxOptions from "./options/CheckboxOptions";
 import DropdownOptions from "./options/DropdownOptions";
 
-const scoreCollection = [];
 export default function ReadingQuestion({
   question,
   options,
@@ -34,11 +22,11 @@ export default function ReadingQuestion({
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
     let givenAnswer = event.target.value;
-    let score = givenAnswer === allInfo.answer ? 10 : 0;
+    // let score = givenAnswer === allInfo.answer ? 10 : 0;
     userQuizHandler({
-      answer: allInfo.answer,
+      // answer: allInfo.answer,
       givenAnswer,
-      score,
+      // score,
       questionCategory,
       id,
     });

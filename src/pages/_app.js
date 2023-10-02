@@ -4,17 +4,15 @@ import "@/styles/globals.css";
 import React, { useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import LinearProgress from "@mui/material/LinearProgress";
-import Navbar from "@/components/navbar";
-import Listening from "@/components/ListentingComponent";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase/config";
 import AuthGuard from "@/components/AuthGuard";
-import PageWithTabWarning from "@/components/PageWithTabWarning";
-import contentful from "../../lib/contentful";
-import GlobalFunctions from "../../lib/GlobalFunctions";
+import { SettingsDrawer, SettingsProvider } from "@/components/settings";
+import { primaryFont } from '../theme/typography';
+import ThemeProvider from "../theme";
+import Layout from "@/components/Layout";
+import RootLayout from "@/layouts/layout";
+import "../styles/globals.css";
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const [menuCollection, setMenuCollection] = useState([]);
   const [pageLoad, setPageLoading] = useState(false);
   const onLoad = () => setPageLoading(true);
   const onDone = () => setPageLoading(false);
@@ -31,21 +29,9 @@ export default function App({ Component, pageProps }) {
     };
   });
 
-  const getAllQuizes = async () => {
-    const allQuizes = await contentful.fetchEntries();
-    const menus = GlobalFunctions.filterDuplicates(allQuizes);
-    const temperMenu = menus.map((val) => {
-      let slug = val.sys.contentType.sys.id;
-      let title = slug.slice(5);
-      return { slug:`/cefr/${slug}`, title };
-    });
-    setMenuCollection(temperMenu);
-  };
-  useEffect(() => {
-    getAllQuizes();
-  }, []);
-  const getLayout = Component.getLayout ?? ((page) => page)
+  const getLayout = Component.getLayout ?? ((page) => page);
   return (
+   
     <ContextProvider>
       {Component.requireAuth ? (
         <AuthGuard>
@@ -53,18 +39,26 @@ export default function App({ Component, pageProps }) {
         </AuthGuard>
       ) : (
         <>
-         
           {pageLoad && (
             <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
               <LinearProgress color="primary" />
             </Stack>
           )}
-          
- 
-         {getLayout(<Component {...pageProps} />)}
-          {/* <Component {...pageProps} /> */}
+          <SettingsProvider
+            defaultSettings={{
+              themeMode: "light", // 'light' | 'dark'
+              themeDirection: "ltr", //  'rtl' | 'ltr'
+              themeColorPresets: "red", // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
+            }}
+          >
+          <SettingsDrawer />
+          <ThemeProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </ThemeProvider>
+          </SettingsProvider>
         </>
       )}
     </ContextProvider>
+   
   );
 }

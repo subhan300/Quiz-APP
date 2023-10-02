@@ -26,14 +26,14 @@ const data = [
 ];
 
 export default function QuiaResult() {
-  const { userScore, userFormSubmit, quizInfo} = State();
+  const { userScore, userFormSubmit, quizInfo } = State();
 
   const router = useRouter();
   const totalMarks = userScore.listening + userScore.reading;
 
   const { listeningQuestionLength, readingQuestionsLength } =
-  quizInfo.ALLQuestionsTotalNumber
-  const total = listeningQuestionLength + readingQuestionsLength;
+    quizInfo.ALLQuestionsTotalNumber;
+  const total = listeningQuestionLength * 10 + readingQuestionsLength * 10;
   useEffect(() => {
     if (!userFormSubmit) {
       router.push("/");
@@ -145,13 +145,16 @@ export default function QuiaResult() {
                           marginBottom: "1rem",
                           marginTop: "2rem",
                         }}
-                        thickness={2}
+                        thickness={3}
                         size="5rem"
                         variant="determinate"
                         value={86}
                       />
                       <span className={stylesheet.que__value}>
-                        {userScore.reading}
+                        {GlobalFunctions.getScorePercentage(
+                          userScore.reading,
+                          readingQuestionsLength * 10
+                        )}
                         <i className={stylesheet.que__progress}>%</i>
                       </span>
                     </div>
@@ -183,7 +186,10 @@ export default function QuiaResult() {
                         value={86}
                       />
                       <span className={stylesheet.que__value}>
-                        {userScore.listening}
+                        {GlobalFunctions.getScorePercentage(
+                          userScore.listening,
+                          listeningQuestionLength * 10
+                        )}
                         <i className={stylesheet.que__progress}>%</i>
                       </span>
                     </div>

@@ -1,5 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
 
+/* scrollbar */
+@import '~simplebar-react/dist/simplebar.min.css';
+
+/* carousel */
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
+
+/* lightbox */
+@import '~yet-another-react-lightbox/styles.css';
+@import '~yet-another-react-lightbox/plugins/captions.css';
+@import '~yet-another-react-lightbox/plugins/thumbnails.css';
+
+/* lazy image */
+@import '~react-lazy-load-image-component/src/effects/blur.css';
+
 * {
     margin: 0;
     padding: 0;

@@ -50,13 +50,11 @@ function AudioTrackComponent({ questionUrl }) {
       const audioElement = audioRef.current;
       setIsPlaying(false);
       const duration = Math.floor(audioElement.duration);
-      console.log("Duration:", duration);
       setDuration(duration)
     });
     audioRef?.current?.addEventListener("timeupdate", (event) => {
      
       const audioElement = audioRef.current;
-      // console.log("audi elemnt",audioElement,audioElement.duration)
       if (audioElement) {
         let currentTimeValue = Math.floor(audioElement.currentTime);
         const timeString = `${formatTime(currentTimeValue)} `;

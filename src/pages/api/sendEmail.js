@@ -22,7 +22,7 @@ export default async (req, res) => {
       from: 'subhan.akram2400@gmAIL.COM',
       to: email,
       subject,
-      text: message,
+      html: message,
     };
 
     // Send the email

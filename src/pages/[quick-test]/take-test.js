@@ -67,6 +67,7 @@ function Quiz() {
     );
     actions.setQuizes({
       ...quiz,
+      quizName:params.slug,
       progressCountNumber: {
         reading: GlobalFunctions.progressNumber(quiz.quizQuestions.length),
         listening: GlobalFunctions.progressNumber(quiz.audioQuestions.length),
@@ -148,7 +149,6 @@ function Quiz() {
       router.push("/quizForm");
     }
   }, [quizInfo.isQuizQuestionDone, quizInfo.isQuizListeningDone]);
-  // console.log("all",allQuizes,"op--",quizState?.allQuizes?.quizQuestions[quizInfo.activeStep],quizInfo.activeStep)
 
   return (
     <div>

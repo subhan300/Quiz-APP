@@ -31,13 +31,13 @@ function CheckboxOptions({ options, handleOptionChange, selectedOption }) {
                 borderRadius: "4px",
                 wordBreak: "break-word",
                 backgroundColor: selectedOption === val ? "#79B3F8" : "",
-                color: selectedOption === val ? "white" : "",
+                color: selectedOption === val ? "white" : "black",
               }}
               onClick={() => {
                 handleOptionChange({ target: { value: val } });
               }}
             >
-              Passage A
+              {val}
             </Paper>
           </Grid>
         );

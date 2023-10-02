@@ -1,7 +1,7 @@
 import firebase_app from "../config";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import myPdf from "../../../public/pdf/mycertificate.pdf";
+import certificate from "../../../public/pdf/test-certificate.pdf";
 
 import {
   getFirestore,
@@ -17,11 +17,21 @@ import {
 import GlobalFunctions from "../../../lib/GlobalFunctions";
 const db = getFirestore(firebase_app);
 const storage = getStorage();
-async function createPdf(name) {
+
+async function createPdf(
+  name,
+  listening,
+  listeningScore,
+  reading,
+  readingScore,
+  testName,
+  score,
+  date
+) {
   try {
     // Generate the PDF as you were doing
     // Load the PDF file using a relative path
-    const pdfBytes = await fetch(myPdf).then((res) => res.arrayBuffer());
+    const pdfBytes = await fetch(certificate).then((res) => res.arrayBuffer());
     // Load the PDF document
     const pdfDoc = await PDFDocument.load(pdfBytes);
     const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
@@ -29,65 +39,110 @@ async function createPdf(name) {
     const firstPage = pages[0];
 
     firstPage.drawText(name, {
-      x: 290,
-      y: 300,
-      size: 40,
+      x: 235,
+      y: 770,
+      // increase go up
+      size: 22,
       color: rgb(0, 0, 0),
     });
+    firstPage.drawText(score, {
+      x: 280,
+      y: 590,
+      // increase go up
+      size: 16,
+      color: rgb(0, 0, 0),
+    });
+    firstPage.drawText(testName, {
+      x: 250,
+      y: 610,
+      // increase go up
+      size: 16,
+      color: rgb(0, 0, 0),
 
+     
+    });
+    firstPage.drawText(listening, {
+      x: 90,
+      y: 220,
+      // increase go up
+      size: 20,
+      color: rgb(0, 0, 0),
+    });
+    firstPage.drawText(listeningScore, {
+      x: 90,
+      y: 202,
+      // increase go up
+      size: 16,
+      color: rgb(1, 0, 0),
+    });
+    firstPage.drawText(reading, {
+      x: 355,
+      y: 220,
+      // increase go up
+      size: 20,
+      color: rgb(0, 0, 0),
+    });
+    firstPage.drawText(readingScore, {
+      x: 355,
+      y: 202,
+      // increase go up
+      size: 16,
+      color: rgb(1, 0, 0),
+    });
+    // firstPage.drawText(date, {
+    //   x: 260,
+    //   y: 490,
+    //   size: 13,
+    //   color: rgb(0, 0, 0),
+    // });
+    // const blob = new Blob([pdfBytesModified], { type: "application/pdf" });
+    // const pdfDataUrl = URL.createObjectURL(blob);
     const pdfBytesModified = await pdfDoc.save();
 
-    // Specify the desired filename with .pdf extension
-    const customFilename = "certificate.pdf";
-
-    // Create a reference to the PDF file in Firebase Cloud Storage with the custom filename
-    const pdfFileRef = ref(storage, `pdfs/${customFilename}`);
-
-    // Upload the PDF file
-    await uploadBytes(pdfFileRef, pdfBytesModified);
-
-    console.log("PDF uploaded successfully");
-
-    // Get the download URL for the uploaded PDF
-    const pdfUrl = (await getDownloadURL(pdfFileRef)) + "?inline=true";
-
-    // Save the custom link in Firestore
-    const data = {
-      link: pdfUrl,
-    };
-   
-    console.log("data", data);
-    return data;
-  
+        // Specify the desired filename with .pdf extension
+        const customFilename = `${name}.pdf`
+        // Create a reference to the PDF file in Firebase Cloud Storage with the custom filename
+        const pdfFileRef = ref(storage, `pdfs/${customFilename}`);
+        await uploadBytes(pdfFileRef, pdfBytesModified);
+        // console.log("PDF uploaded successfully");
+        const pdfUrl = (await getDownloadURL(pdfFileRef)) + "?inline=true";
+        // window.open(pdfUrl)
+        return {link:pdfUrl}
+    // window.open(pdfDataUrl, "_blank");
   } catch (error) {
     console.error("Error:", error);
   }
 }
-async function addLink(collectionName, data) {
-  try {
-    // Add the data to the collection
-    const docRef = await addDoc(collection(db, collectionName), data);
 
-    // Return the auto-generated ID
-    return { id: docRef.id, error: null };
-  } catch (error) {
-    return { id: null, error };
-  }
-}
-const addData = async (collection, id, data, isQuiz) => {
+const addData = async (collection, id, data, isQuiz,certificatePayload) => {
   let result = null;
   let error = null;
   try {
-    result = await setDoc(doc(db, collection, id), data, {
+    let name = data?.firstName + data.lastName;
+    let temperNewScore = { ...data };
+    if (isQuiz) {
+      const certificateGenerate = await createPdf(name,...certificatePayload);
+      (temperNewScore = {
+        ...temperNewScore,
+        result: [
+          {
+            ...temperNewScore.result[0].userScore,
+
+            certificateLink: certificateGenerate.link,
+            date: new Date(),
+          },
+        ],
+      }),
+        GlobalFunctions.sendEmail(
+          data.email,
+          GlobalFunctions.emailTemplate(name, certificateGenerate.link)
+        );
+    }
+
+    result = await setDoc(doc(db, collection, id), temperNewScore, {
       merge: true,
     });
-    let name = data?.firstName + data.lastName;
-    const certificateGenerate = await createPdf(name);
-    isQuiz &&
-      GlobalFunctions.sendEmail(
-        data.email,
-        GlobalFunctions.emailTemplate(name, certificateGenerate.link)
-      );
+
     return "success";
   } catch (e) {
     error = e;
@@ -95,18 +150,26 @@ const addData = async (collection, id, data, isQuiz) => {
   }
 };
 // Create a function to update the userScore array
-const updateUserScore = async (userId, prevData, newScore, isQuiz,user) => {
+const updateUserScore = async (userId, prevData, newScore, isQuiz, user,certificatePayload) => {
   try {
-    // Combine the previous userScore array with the new score
-    const updatedUserScore = [...prevData, newScore];
-    let name = user?.firstName + user.lastName;
-    const certificateGenerate = await createPdf(name);
-
-    isQuiz &&
-    GlobalFunctions.sendEmail(
+    let temperNewScore = { ...newScore };
+    if (isQuiz) {
+      // Combine the previous userScore array with the new score
+      let name = user?.firstName + user.lastName;
+      
+      const certificateGenerate = await createPdf(name,...certificatePayload);
+      temperNewScore = {
+        ...temperNewScore,
+        certificateLink: certificateGenerate?.link,
+        date: new Date(),
+      };
+      GlobalFunctions.sendEmail(
         user.email,
-        GlobalFunctions.emailTemplate(name, certificateGenerate.link)
+        GlobalFunctions.emailTemplate(name, certificateGenerate?.link)
       );
+    }
+    const updatedUserScore = [...prevData, temperNewScore];
+
     // Update the userScore array in the Firestore document
     const userRef = doc(db, "users", userId);
     const updateResult = await updateDoc(userRef, {
